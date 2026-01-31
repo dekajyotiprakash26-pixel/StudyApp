@@ -24,6 +24,7 @@ h1{
   margin-bottom:12px;
   font-size:18px;
   box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  cursor:pointer;
 }
 
 .subject.completed{
@@ -33,7 +34,6 @@ h1{
 .subject a{
   text-decoration:none;
   color:#3b2a20;
-  display:block;
   font-weight:bold;
 }
 
@@ -57,35 +57,40 @@ button{
 
 <body>
 
-<h1>📚 My Subjects</h1>
+<h1>My Subjects</h1>
 
-<div class="subject" data-id="assam1">
+<div class="subject" data-id="assam1" onclick="openPage('assam-history-part1/index.html')">
   <a href="assam-history-part1/index.html">Assam History Part 1</a>
   <div class="meta" id="date-assam1">Last revised: —</div>
-  <button onclick="markDone('assam1')">Done</button>
-  <button onclick="resetDone('assam1')">Reset</button>
+  <button onclick="markDone('assam1', event)">Done</button>
+  <button onclick="resetDone('assam1', event)">Reset</button>
 </div>
 
-<div class="subject" data-id="assam2">
+<div class="subject" data-id="assam2" onclick="openPage('assam-history-part2/index.html')">
   <a href="assam-history-part2/index.html">Assam History Part 2</a>
   <div class="meta" id="date-assam2">Last revised: —</div>
-  <button onclick="markDone('assam2')">Done</button>
-  <button onclick="resetDone('assam2')">Reset</button>
+  <button onclick="markDone('assam2', event)">Done</button>
+  <button onclick="resetDone('assam2', event)">Reset</button>
 </div>
 
 <script>
 const KEY_PROGRESS = "study_progress";
-
 let progress = JSON.parse(localStorage.getItem(KEY_PROGRESS)) || {};
 
-function markDone(id){
+function openPage(url){
+  window.location.href = url;
+}
+
+function markDone(id, e){
+  e.stopPropagation();   // critical line
   let today = new Date().toLocaleDateString();
   progress[id] = today;
   localStorage.setItem(KEY_PROGRESS, JSON.stringify(progress));
   applyUI();
 }
 
-function resetDone(id){
+function resetDone(id, e){
+  e.stopPropagation();   // critical line
   delete progress[id];
   localStorage.setItem(KEY_PROGRESS, JSON.stringify(progress));
   applyUI();
@@ -111,4 +116,3 @@ applyUI();
 
 </body>
 </html>
-
