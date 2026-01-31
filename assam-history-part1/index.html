@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assam History</title>
+
+<style>
+body{
+  font-family: Georgia, serif;
+  background:#F4E3C8;
+  color:#4b3a2f;
+  padding:20px;
+}
+
+h2{
+  text-align:center;
+}
+
+.subject{
+  background:#F4E3C8;
+  border:1px solid #d8c7b0;
+  border-radius:8px;
+  padding:16px;
+  margin-bottom:12px;
+  font-size:18px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+
+.subject.completed{
+  border:2px solid #4caf50;
+}
+
+.subject a{
+  text-decoration:none;
+  color:#3b2a20;
+  display:block;
+  font-weight:bold;
+}
+
+.meta{
+  margin-top:8px;
+  font-size:14px;
+  color:#6b5647;
+}
+
+button{
+  margin-top:8px;
+  margin-right:6px;
+  background:#e8d6bd;
+  border:1px solid #c8b49a;
+  padding:4px 8px;
+  border-radius:4px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Assam History</h2>
+
+<div class="subject" data-id="assam-full">
+  <a href="full.html">📘 Full Combined Revision</a>
+  <div class="meta" id="date-assam-full">Last revised: —</div>
+  <button onclick="markDone('assam-full')">Done</button>
+  <button onclick="resetDone('assam-full')">Reset</button>
+</div>
+
+<div class="subject" data-id="assam-p1">
+  <a href="part1.html">Part 1</a>
+  <div class="meta" id="date-assam-p1">Last revised: —</div>
+  <button onclick="markDone('assam-p1')">Done</button>
+  <button onclick="resetDone('assam-p1')">Reset</button>
+</div>
+
+<div class="subject" data-id="assam-p2">
+  <a href="part2.html">Part 2</a>
+  <div class="meta" id="date-assam-p2">Last revised: —</div>
+  <button onclick="markDone('assam-p2')">Done</button>
+  <button onclick="resetDone('assam-p2')">Reset</button>
+</div>
+
+<div class="subject" data-id="assam-p3">
+  <a href="part3.html">Part 3</a>
+  <div class="meta" id="date-assam-p3">Last revised: —</div>
+  <button onclick="markDone('assam-p3')">Done</button>
+  <button onclick="resetDone('assam-p3')">Reset</button>
+</div>
+
+<div class="subject" data-id="assam-p4">
+  <a href="part4.html">Part 4</a>
+  <div class="meta" id="date-assam-p4">Last revised: —</div>
+  <button onclick="markDone('assam-p4')">Done</button>
+  <button onclick="resetDone('assam-p4')">Reset</button>
+</div>
+
+<div class="subject">
+  <a href="../index.html">⬅ Back to All Subjects</a>
+</div>
+
+<script>
+const KEY_PROGRESS = "study_progress";
+
+let progress = JSON.parse(localStorage.getItem(KEY_PROGRESS)) || {};
+
+function markDone(id){
+  let today = new Date().toLocaleDateString();
+  progress[id] = today;
+  localStorage.setItem(KEY_PROGRESS, JSON.stringify(progress));
+  applyUI();
+}
+
+function resetDone(id){
+  delete progress[id];
+  localStorage.setItem(KEY_PROGRESS, JSON.stringify(progress));
+  applyUI();
+}
+
+function applyUI(){
+  document.querySelectorAll(".subject").forEach(box=>{
+    let id = box.dataset.id;
+    if(!id) return;
+
+    let dateBox = document.getElementById("date-"+id);
+
+    if(progress[id]){
+      box.classList.add("completed");
+      dateBox.innerText = "Last revised: " + progress[id];
+    }else{
+      box.classList.remove("completed");
+      dateBox.innerText = "Last revised: —";
+    }
+  });
+}
+
+applyUI();
+</script>
+
+</body>
+</html>
