@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Q&A Notes</title>
+
+<style>
+
+/* ===== SOFT PAPER / GOVERNMENT PDF THEME ===== */
+
+body{
+  font-family: "Georgia", "Times New Roman", serif;
+  background:#F4E3C8;   /* paper beige */
+  color:#4b3a2f;        /* dark brown text */
+  padding:18px;
+  line-height:1.7;
+}
+
+/* Question Card */
+.card{
+  background:#F4E3C8;
+  padding:16px;
+  margin-bottom:16px;
+  border-radius:6px;
+  cursor:pointer;
+  border:1px solid #d8c7b0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Question */
+.card b{
+  color:#3E3327;
+  font-size:18px;
+  font-weight:600;
+}
+
+/* Answer */
+.ans{
+  display:none;
+  margin-top:12px;
+  color:#4b3a2f;
+  font-size:16px;
+}
+
+/* Show answer */
+.card.show .ans{
+  display:block;
+}
+
+/* Topic */
+.ans small{
+  display:block;
+  margin-top:6px;
+  color:#6b5647;
+  font-style:italic;
+}
+
+/* Buttons */
+button{
+  margin-top:10px;
+  background:#e8d6bd;
+  color:#3b2a20;
+  border:1px solid #c8b49a;
+  padding:6px 10px;
+  border-radius:4px;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+button:hover{
+  background:#ddc8aa;
+}
+
+/* Done button */
+button.done{
+  background:#cde0c6;
+  border-color:#7aa57a;
+  color:#2f5d2f;
+  cursor:default;
+}
+
+/* Headings */
+h2, h3{
+  color:#3b2a20;
+}
+
+/* Divider */
+hr{
+  border:none;
+  border-top:1px solid #d8c7b0;
+  margin:20px 0;
+}
+
+/* Saved + All Questions labels */
+.saved, .all-q{
+  color:#6b5647;
+}
+
+/* Bookmark highlight */
+.card.bookmarked{
+  border:2px solid #b08900;
+  background:#fff3c9;
+}
+
+/* Capitalise first letters */
+.card b,
+.ans{
+  text-transform: capitalize;
+}
+
+/* 3-dot menu */
+.menu-container{
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+
+.menu-btn{
+  font-size: 22px;
+  background: #e8d6bd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.menu{
+  display: none;
+  margin-top: 6px;
+  background: #f4e3c8;
+  border: 1px solid #c8b49a;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.menu button{
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.menu button:hover{
+  background:#ddc8aa;
+}
+
+
+/* Saved section: force Remove button to bottom */
+#savedSection .card{
+  display:flex;
+  flex-direction:column;
+}
+
+#savedSection button{
+  align-self:flex-start;   /* left aligned */
+  margin-top:12px;        /* space from question */
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-container">
+  <button class="menu-btn" onclick="toggleMenu()">+</button>
+  <div id="menu" class="menu">
+     <button onclick="goTop()">Go to Top</button>
+    <button onclick="goToBookmark()">Go to Bookmark</button>
+    <button onclick="loadOriginal()">Original Order</button>
+    <button onclick="loadSet1()">Random Set 1</button>
+    <button onclick="loadSet2()">Random Set 2</button>
+  </div>
+</div>
+
+<h2>ASSAM HISTORY</h2>
+
+<h3 class="saved">Saved (Weak) Questions</h3>
+<div id="savedSection"></div>
+
+<hr>
+
+
+
+<h3 class="all-q">All Questions</h3>
+<h3 id="qCount">Total Questions: 0</h3>
+
+
+<div id="allQuestions">
+
+
+
+
+<!-- PASTE EXCEL CONTENT BELOW -->
+
+
+
+
+
+
+
+
+
+<div class='card' data-id='2' onclick="this.classList.toggle('show')"><b>ahom kingdom total duration? From to?</b><div class='ans'>598 years. From 1228 to 1826<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='3' onclick="this.classList.toggle('show')"><b>first and last ruler of ahom</b><div class='ans'>1st: sukapha, last: purandar singha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='4' onclick="this.classList.toggle('show')"><b>last ahom king</b><div class='ans'>purandar singha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='5' onclick="this.classList.toggle('show')"><b>sukapha reign duration</b><div class='ans'>1228 to 1268<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='6' onclick="this.classList.toggle('show')"><b>Patkai Range is part of which larger system?</b><div class='ans'>Eastern Himalayas<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='7' onclick="this.classList.toggle('show')"><b>Patkai Pass connects which two countries?</b><div class='ans'>India and Myanmar<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='8' onclick="this.classList.toggle('show')"><b>Patkai Pass lies in which Indian state?</b><div class='ans'>Assam (North-East India)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='9' onclick="this.classList.toggle('show')"><b>Patkai Pass was used by which dynasty to enter Assam?</b><div class='ans'>Ahom dynasty<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='10' onclick="this.classList.toggle('show')"><b>The Ahoms migrated to Assam through which route?</b><div class='ans'>Patkai Pass<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='11' onclick="this.classList.toggle('show')"><b>Patkai Pass connects India with which South-East Asian region?</b><div class='ans'>Myanmar / Burma<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='12' onclick="this.classList.toggle('show')"><b>Patkai Pass is important historically for which reason?</b><div class='ans'>Migration and trade route<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='13' onclick="this.classList.toggle('show')"><b>Patkai Pass acted as what between India and SE Asia?</b><div class='ans'>Natural corridor<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='14' onclick="this.classList.toggle('show')"><b>Which river valley is near Patkai region?</b><div class='ans'>Brahmaputra valley<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='15' onclick="this.classList.toggle('show')"><b>Patkai Pass is in eastern or western Himalayas?</b><div class='ans'>Eastern Himalayas<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='16' onclick="this.classList.toggle('show')"><b>Patkai Pass is associated with which country border?</b><div class='ans'>Indo–Myanmar border<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='17' onclick="this.classList.toggle('show')"><b>Ahoms belong to which race?</b><div class='ans'>Mongoloid<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='18' onclick="this.classList.toggle('show')"><b>Ahoms belong to which branch of Mongoloid race?</b><div class='ans'>Tai branch<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='19' onclick="this.classList.toggle('show')"><b>Ahoms are related to which language family?</b><div class='ans'>Tai language family<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='20' onclick="this.classList.toggle('show')"><b>Original homeland of Ahoms?</b><div class='ans'>maulung or mong mao, Yunnan (China)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='21' onclick="this.classList.toggle('show')"><b>Ahoms entered Assam through which route?</b><div class='ans'>Patkai Pass<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='22' onclick="this.classList.toggle('show')"><b>Ahoms are ethnically closer to which people?</b><div class='ans'>Tai–Shan people<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='23' onclick="this.classList.toggle('show')"><b>Ahoms are Indo-Aryan or Mongoloid?</b><div class='ans'>Mongoloid<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='24' onclick="this.classList.toggle('show')"><b>Which king led the Ahoms into Assam?</b><div class='ans'>Sukaphaa<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='25' onclick="this.classList.toggle('show')"><b>In which year did Ahoms enter Assam?</b><div class='ans'>1228 CE<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='26' onclick="this.classList.toggle('show')"><b>when did sukapha left his homeland maulong</b><div class='ans'>1215<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='27' onclick="this.classList.toggle('show')"><b>sukapha first reach where in assam in 1228</b><div class='ans'>he reached namrup, dibrugarh<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='28' onclick="this.classList.toggle('show')"><b>when did sukapha first reach brahmaputra valley</b><div class='ans'>1228<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='29' onclick="this.classList.toggle('show')"><b>where was the first capital of ahom? who ? and when etd it?</b><div class='ans'>charaideo, sukapha, 1253 ( sukapha died in 1268)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='30' onclick="this.classList.toggle('show')"><b>first and last ahom capital and related kings</b><div class='ans'>1st: charaideo (sukapha), last: jorhat ( gaurinath singha)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='31' onclick="this.classList.toggle('show')"><b>why? When ? @? assam divas celebrated</b><div class='ans'>assam divas @sukapha divas celebrated on 2 dec to give respect to sukapha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='32' onclick="this.classList.toggle('show')"><b>who is the archietect of the bor asom</b><div class='ans'>Sukaphaa<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='33' onclick="this.classList.toggle('show')"><b>what is the meaning of chao lung</b><div class='ans'>chao: lord, lung: great<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='34' onclick="this.classList.toggle('show')"><b>since when assam divas has been celebrated</b><div class='ans'>1996 dec 2<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='35' onclick="this.classList.toggle('show')"><b>sukapha died when</b><div class='ans'>1268<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='36' onclick="this.classList.toggle('show')"><b>tuitelary deity of ahom</b><div class='ans'>somdeo<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='37' onclick="this.classList.toggle('show')"><b>sukapha had his first hq at? When</b><div class='ans'>tipam, 1228<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='38' onclick="this.classList.toggle('show')"><b>tipam lies bw which rivers ? District</b><div class='ans'>bw burhi dihing and disan river, in tinsukia (Tipam was the first capital of the Ahom Kingdom, established by Sukaphaa in 1228 CE on the banks of the Dihing River.)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='39' onclick="this.classList.toggle('show')"><b>what sukapha called his kingdom? Meaning</b><div class='ans'>mung dun sun kham: a country full of golden gardens<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='40' onclick="this.classList.toggle('show')"><b>sukapha created posts?</b><div class='ans'>borgohain : konangon, burhagohain: klinglumangari<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='41' onclick="this.classList.toggle('show')"><b>who is the first borgohain and burhagohain</b><div class='ans'>borgohain : konangon, burhagohain: klinglumangari<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='42' onclick="this.classList.toggle('show')"><b>who created borgohain post? First borgohain</b><div class='ans'>sukaphaa, borgohain : konangon, burhagohain: klinglumangari<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='43' onclick="this.classList.toggle('show')"><b>who created burhagohain post? First burrhagohain</b><div class='ans'>sukapha,, borgohain : konangon, burhagohain: klinglumangari<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='44' onclick="this.classList.toggle('show')"><b>2nd king of ahom</b><div class='ans'>suteupha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='45' onclick="this.classList.toggle('show')"><b>4th ahom king</b><div class='ans'>sukhangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='46' onclick="this.classList.toggle('show')"><b>during which ahom ruler reign first major war against kamata started ? Who was the kamata ruler ?</b><div class='ans'>sukhangpha vs pratapdhwaj<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='47' onclick="this.classList.toggle('show')"><b>who is rajanee</b><div class='ans'>rajanee is the daughter of kamata king pratapdhwaj married to 4th ahom king sukhangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='48' onclick="this.classList.toggle('show')"><b>who is suteupha</b><div class='ans'>suteupha is the 2nd ahom ruler after sukapha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='49' onclick="this.classList.toggle('show')"><b>who is chao pulai</b><div class='ans'>son of rajanee + sukhangphaa also he is the charing king<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='50' onclick="this.classList.toggle('show')"><b>who is the 5th ahom king</b><div class='ans'>sukhrangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='51' onclick="this.classList.toggle('show')"><b>who succeded after 4th ahom king sukhangpha</b><div class='ans'>sukhrangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='52' onclick="this.classList.toggle('show')"><b>who is the younger brother of sukhrangpha</b><div class='ans'>tao chulai the son of 4th ahom king sukhangpha + rajanee (pratapdhwaj daughter of kamta)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='53' onclick="this.classList.toggle('show')"><b>who made chao pulai the charing king</b><div class='ans'>sukhrangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='54' onclick="this.classList.toggle('show')"><b>first interregnum of ahom period when? After which king? from to?</b><div class='ans'>1364 to 1369, after the death of sukhrangpha (the son of 4th ahom king sukhangpha)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='55' onclick="this.classList.toggle('show')"><b>who became the king after first ahom interognum</b><div class='ans'>1st int. 1364 to 1369 sutupha became the king<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='56' onclick="this.classList.toggle('show')"><b>when was the first and 2nd ahom interognum</b><div class='ans'>1st: 1364 (after sukhrangpha death) 2nd: 1376 (after sutupha death)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='57' onclick="this.classList.toggle('show')"><b>which ahom ruler assasinated by chutia</b><div class='ans'>sutupha (brother: sukhrangpha, father: sukhangpha)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='58' onclick="this.classList.toggle('show')"><b>tyao khamti is the son? And brother? Of</b><div class='ans'>father: sukhangpha, brother: sukhrangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='59' onclick="this.classList.toggle('show')"><b>who become the king after second ahom interognum</b><div class='ans'>tyao khamti son of sukhangpha and brother of sukhrangpha and sutupha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='60' onclick="this.classList.toggle('show')"><b>who and why tyao khamti was assasinated</b><div class='ans'>because of his wife lost he became unstable and couldn’t rule properly so the mininsters dicided to assasinate him and then had the 3rd interognum of ahom rule <br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='61' onclick="this.classList.toggle('show')"><b>who became the king after 3rd  ahom interognum</b><div class='ans'>sudangpha ( son of tyao khamti)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='62' onclick="this.classList.toggle('show')"><b>who is the son of tyao khamti </b><div class='ans'>sudangpha ( son of tyao khamti)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='63' onclick="this.classList.toggle('show')"><b>who is bamuni knowar and why </b><div class='ans'>sudangpha ( son of tyao khamti) is known as bamuni knowar because of his upbringing in a brahmins house<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='64' onclick="this.classList.toggle('show')"><b>who are the sons of sukhangpha</b><div class='ans'>sukhrangpha, chao pulai, sutupha, tyao khamti<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='65' onclick="this.classList.toggle('show')"><b>why the 1st ahom interognum happened</b><div class='ans'>because of sukhrangphas death and he had no heir and his brother sutupha and tyao khanti are little<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='66' onclick="this.classList.toggle('show')"><b>mention the years and ruler of 1st 2nd & 3rd ahom interognum</b><div class='ans'>1st: in 1364 because of sukhrangphas death> 2nd: in 1376 after sutuphas death> 3rd: in 1387 after tyao khamtis death<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='67' onclick="this.classList.toggle('show')"><b>who became the king after 2nd ahom interognum</b><div class='ans'>after 1376 interognum tyao khamti <br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='68' onclick="this.classList.toggle('show')"><b>which ruler marked the official entry of hinduism to ahom court</b><div class='ans'>sudangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='69' onclick="this.classList.toggle('show')"><b>which ahom ruler stated the singari ghar utha ceremony</b><div class='ans'>sudangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='70' onclick="this.classList.toggle('show')"><b>ahom-tipam war happened during the reign of </b><div class='ans'>sudangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='71' onclick="this.classList.toggle('show')"><b>first ahom ruler to use hindu title</b><div class='ans'>sudangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='72' onclick="this.classList.toggle('show')"><b>first ahom ruler to  adopt coustoms and titles</b><div class='ans'>sudangpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='73' onclick="this.classList.toggle('show')"><b>which ahom ruler re-built nag shankar temple</b><div class='ans'>susenpha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='74' onclick="this.classList.toggle('show')"><b>during which ahom ruler reign shankardev was born</b><div class='ans'>susenpha (1439 to 1488) shankardev born in 1449<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='75' onclick="this.classList.toggle('show')"><b>which ahom ruler exiled his wife to naga hills</b><div class='ans'>supimpha (father of mula gabharu, suhungmung, konseng)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='76' onclick="this.classList.toggle('show')"><b>who is konseng</b><div class='ans'>son of supimpha, brother of mula gabharu & suhungmung, the first borpatrogohain<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='77' onclick="this.classList.toggle('show')"><b>father of suhungmung @ dihingia raja</b><div class='ans'>supimpha (father of mula gabharu, suhungmung, konseng)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='78' onclick="this.classList.toggle('show')"><b>children of supimpha</b><div class='ans'>supimpha (father of mula gabharu, suhungmung, konseng)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='79' onclick="this.classList.toggle('show')"><b>who is known as dihingia raja</b><div class='ans'>suhungmung (1497 to 1539)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='80' onclick="this.classList.toggle('show')"><b>suhungmund reign duration</b><div class='ans'>suhungmung (1497 to 1539)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='81' onclick="this.classList.toggle('show')"><b>who is the first ahom king to change the capital after sukapha</b><div class='ans'>suhungmung (1497 to 1539), capital : bokota<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='82' onclick="this.classList.toggle('show')"><b>which is the 2nd capital of ahom? During the reign of?</b><div class='ans'>bokota near dihing river by suhungmund @ dihingia raja<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='83' onclick="this.classList.toggle('show')"><b>why suhungmung is called dihingia raja</b><div class='ans'>he shifted his capital to bokota which is on the bank of dihing river<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='84' onclick="this.classList.toggle('show')"><b>contemporary koch king of suhungmung </b><div class='ans'>suhungmung (1497 - 1539), bishwasingha (1515 - 1540)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='85' onclick="this.classList.toggle('show')"><b>During whose reign did Ahoms become fully Hinduised?</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='86' onclick="this.classList.toggle('show')"><b>Who first institutionalised Hindu kingship in Ahom rule?</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='87' onclick="this.classList.toggle('show')"><b>Who started linking Ahoms to Hindu genealogy?</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='88' onclick="this.classList.toggle('show')"><b>Difference between Sudangpha and Suhungmung in terms of hinduism in ahom rule?</b><div class='ans'>Sudangpha adopted personally; Suhungmung made it state system<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='89' onclick="this.classList.toggle('show')"><b>who took the hindu title of swarganaryan</b><div class='ans'>suhungmung @dihingia raja<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='90' onclick="this.classList.toggle('show')"><b>during which ahom king rule first buranji in assamese introduce and what is it</b><div class='ans'>suhungmung, sri sri swarnarayan maharajor janmo kotha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='91' onclick="this.classList.toggle('show')"><b>first ahom king to use the saka era calender</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='92' onclick="this.classList.toggle('show')"><b>the use of firearms was introduced during the reign of in ahom?</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='93' onclick="this.classList.toggle('show')"><b>who created the post of barpatrogohain? Who was the firest borpatrogohain</b><div class='ans'>suhungmung, his brother senglung @konseng<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='94' onclick="this.classList.toggle('show')"><b>first ever census in ahom during the reign of</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='95' onclick="this.classList.toggle('show')"><b>battle of dikhowmukh bw? When</b><div class='ans'>suhungmung vs dhirnaryan/dharmadhwajpal (chutiya) in 1513<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='96' onclick="this.classList.toggle('show')"><b>when did ___  annexed chutiya kingdom? Who was the last ruler of chutiya</b><div class='ans'>suhungmung annexed chutiya in 1523, last ruler : nitipal<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='97' onclick="this.classList.toggle('show')"><b>sadiyakhowagohain created by whom? Why? First holder?</b><div class='ans'>suhungmung, to adminsiter chutiya kingdom, pharsengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='98' onclick="this.classList.toggle('show')"><b>during who reign? When? Kachari kingdom annexed by ahom</b><div class='ans'>suhungmung, 1531,<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='99' onclick="this.classList.toggle('show')"><b>marrangi khowa gohain post created by whom? When? Why? </b><div class='ans'>suhungmung, after annexing kachari, to administer kachari kingdom<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='100' onclick="this.classList.toggle('show')"><b>who is detsung</b><div class='ans'>in 1531 after annexing kachari the kachari king khukhura removed and instead a puppet king of ahom detsung established as king<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='101' onclick="this.classList.toggle('show')"><b>who is khunkhura</b><div class='ans'>when ahom attacked kachari in 1531 (suhungmung) the kachari king was khunkhura<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='102' onclick="this.classList.toggle('show')"><b>when? Reign? First md invasion of ahom</b><div class='ans'>in 1527, suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='103' onclick="this.classList.toggle('show')"><b>1st md invasion of ahom, by whom</b><div class='ans'>bengal sultan nushrat sah's senapati bar ujir<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='104' onclick="this.classList.toggle('show')"><b>during 1st md invasion of ahom, bar ujir assited by</b><div class='ans'>bar ujir assisted by bitmanik & laipat or lupit + former kachari king khunkhura<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='105' onclick="this.classList.toggle('show')"><b>who is bitmanik ? Who killed him</b><div class='ans'>during the 1st md invasion of ahom in 1527, bar ujir the senapati of nushrat sah was assited by bitmanik. Bitmanik killed by koncheng<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='106' onclick="this.classList.toggle('show')"><b>who is bar ujir</b><div class='ans'>1527 1st md invsn of ahom during suhungmung he was the senapati sent by bengal sultan nushrat sah<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='107' onclick="this.classList.toggle('show')"><b>who are bitmanik and laipat</b><div class='ans'>1527 1st md invsn of ahom during suhungmung he was the senapati sent by bengal sultan nushrat sah<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='108' onclick="this.classList.toggle('show')"><b>when ? During whose reign ? 2nd md invasion of ahom happened</b><div class='ans'>in 1532, suhungmung @ dihingia raja<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='109' onclick="this.classList.toggle('show')"><b>2nd md invsion of ahom carreid out by</b><div class='ans'>turbak khan (general of badshah of gaur)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='110' onclick="this.classList.toggle('show')"><b>who sent turbak khan to invade ahom in 1532</b><div class='ans'>badsah of gaur<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='111' onclick="this.classList.toggle('show')"><b>who sent bar ujir in 1527 to invade ahom</b><div class='ans'>bengal sultan nushrat sah <br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='112' onclick="this.classList.toggle('show')"><b>who is hayet khan? Killed by whom</b><div class='ans'>during  2nd md invasion of ahom in 1532, hayet was the assit. Snepati of turbak khan.. Killed by pharsengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='113' onclick="this.classList.toggle('show')"><b>who is pharsengmung? How did he died</b><div class='ans'>pharsengmung: sadiya khowa gohain, husband of mula gabharu, he died during the 2nd md invasion of ahom in 1532 <br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='114' onclick="this.classList.toggle('show')"><b>who is mula gabhoru</b><div class='ans'> mula gabhoru is the wife of pharsengmung (sadiyakhowagohain) and the sister of suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='115' onclick="this.classList.toggle('show')"><b>mula gabhoru is related to which war</b><div class='ans'>1532 2nd md invasion of ahom<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='116' onclick="this.classList.toggle('show')"><b>how did mula gabhoru died and when</b><div class='ans'>during the  2nd md invsion of ahom, her hubby pharsengmung died fighting when she heard she herself went to fight and then she died<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='117' onclick="this.classList.toggle('show')"><b>where did the turbak khan entombed</b><div class='ans'>charaideo hill<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='118' onclick="this.classList.toggle('show')"><b>mula gabhoru's spouse</b><div class='ans'>sadiyakhowagohain pharsengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='119' onclick="this.classList.toggle('show')"><b>mula gabhoru's children </b><div class='ans'>ton kham<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='120' onclick="this.classList.toggle('show')"><b>mula gabhoru's father </b><div class='ans'>supimpha (father of mula gabharu, suhungmung, konseng)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='121' onclick="this.classList.toggle('show')"><b>mula gabhoru's brother </b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='122' onclick="this.classList.toggle('show')"><b>relation bw suhungmung and pharsengmung</b><div class='ans'>suhungmung's brother in law (his sister (mula gabhoru's) husband<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='123' onclick="this.classList.toggle('show')"><b>the post "barpatrogohain" created by?</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='124' onclick="this.classList.toggle('show')"><b>the post "sadiyakhowagohain" created by? Why</b><div class='ans'>suhungmung, to administer chutiya <br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='125' onclick="this.classList.toggle('show')"><b>the post "marangikhowagohain" created by? Why</b><div class='ans'>suhungmung, to administer kachari<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='126' onclick="this.classList.toggle('show')"><b>from the time of which ahom ruler all ahom ruler started to adopt hindu names along with ahom names</b><div class='ans'>suhungmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='127' onclick="this.classList.toggle('show')"><b>when did suhungmung died? Who killed him ? </b><div class='ans'>1539, killed by ratiman (conspiracy by elder son suklengmung.)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='128' onclick="this.classList.toggle('show')"><b>who became the king after suhungmung</b><div class='ans'>his son suklengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='129' onclick="this.classList.toggle('show')"><b>who became the king after dihingia raja</b><div class='ans'>his son suklengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='130' onclick="this.classList.toggle('show')"><b>duration of suklengmung</b><div class='ans'>1539 to 1552<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='131' onclick="this.classList.toggle('show')"><b>who is known as garhgiyan raja</b><div class='ans'>suklengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='132' onclick="this.classList.toggle('show')"><b>who is the contemporary koch king of suklengmung</b><div class='ans'>naranaryan (1540 to 1587), suklengmung (1539 to 1552)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='133' onclick="this.classList.toggle('show')"><b>which ahom shifted his capital to garghgaon</b><div class='ans'>suklengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='134' onclick="this.classList.toggle('show')"><b>suklengmung capital where</b><div class='ans'>garhgaon<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='135' onclick="this.classList.toggle('show')"><b>why suklengmung known as garhgiyan raja</b><div class='ans'>he shifted his capital from bokota to garhgaon<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='136' onclick="this.classList.toggle('show')"><b>who is hari (ahom)</b><div class='ans'>son in law of shankardev<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='137' onclick="this.classList.toggle('show')"><b>why the departure of shankardev from ahom kingdom? During whose reign</b><div class='ans'>during suklengmung reign hari and madhabdev was captured and hari was executed <br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='138' onclick="this.classList.toggle('show')"><b>who excavated the garhgaon tank</b><div class='ans'>suklengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='139' onclick="this.classList.toggle('show')"><b>who built naga ali road</b><div class='ans'>suklengmung<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='140' onclick="this.classList.toggle('show')"><b>first ahom koch war when? Both side rulers name</b><div class='ans'>in 1546, suklengmung vs naranaryan<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='141' onclick="this.classList.toggle('show')"><b>who became the king after suklengmung</b><div class='ans'>sukhampha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='142' onclick="this.classList.toggle('show')"><b>duration of sukhampha</b><div class='ans'>1552 - 1603 <br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='143' onclick="this.classList.toggle('show')"><b>longest rulling king of ahoms?  How many years?</b><div class='ans'>sukhampha , 51 years (1552 to 1603)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='144' onclick="this.classList.toggle('show')"><b>who is known as khora raja</b><div class='ans'>sukhampha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='145' onclick="this.classList.toggle('show')"><b>sukhampha @</b><div class='ans'>khora raja or lame raja<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='146' onclick="this.classList.toggle('show')"><b>which ahom ruler hurt his foot while hunting elephant</b><div class='ans'>sukhampha @ khora raja<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='147' onclick="this.classList.toggle('show')"><b>contemporary koch king of sukhampha </b><div class='ans'>naranaryan (1540 to 1587), sukhampha (1552 to 1603)<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='148' onclick="this.classList.toggle('show')"><b>ahom-koch treaty? When? Both side ruler</b><div class='ans'>treaty of majuli in 1563. sukhampha vs naranaryan<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='149' onclick="this.classList.toggle('show')"><b>burhagohain during treaty of majuli 1563</b><div class='ans'>aikhek burhagohain<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='150' onclick="this.classList.toggle('show')"><b>who was the commander of ahom during the majuli treaty war</b><div class='ans'>aikhek burhagohain<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='151' onclick="this.classList.toggle('show')"><b>when did sukhampha fled to when koch attack in 1562</b><div class='ans'>charaikhrong hill, namrup, dibrugarh<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='152' onclick="this.classList.toggle('show')"><b>expedition against aitonia papuk and khamtang nagas during the reign of</b><div class='ans'>sukhampha<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='153' onclick="this.classList.toggle('show')"><b>dhekeri raja and bhela raja related to which ahom ruler</b><div class='ans'>sukhampha fought against two bhuyans dhekeri raja and bhela raja<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='154' onclick="this.classList.toggle('show')"><b>who was the burhagohain during sukhamphas reign</b><div class='ans'>aikhek burhagohain<br><small>Topic: before pratap singha 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- PASTE EXCEL CONTENT above -->
+
+<script>
+window.onload = function () {
+
+function updateQuestionCount() {
+  let count = document.querySelectorAll("#allQuestions .card").length;
+  document.getElementById("qCount").innerText =
+    "Total Questions: " + count;
+}
+
+
+  /* ================== STORAGE KEYS ================== */
+  const KEY_SET1 = "order_set1";
+  const KEY_SET2 = "order_set2";
+  const KEY_ACTIVE_SET = "activeSet"; // original | set1 | set2
+  const PAGE = location.pathname;
+const KEY_SAVED = "savedQ_" + PAGE;
+
+  const KEY_BOOKMARK = "bookmarkQ";
+
+  /* ================== LOAD STORED DATA ================== */
+  let saved = JSON.parse(localStorage.getItem(KEY_SAVED)) || [];
+  let bookmarkedId = localStorage.getItem(KEY_BOOKMARK);
+  let activeSet = localStorage.getItem(KEY_ACTIVE_SET) || "original";
+
+ let container = document.getElementById("allQuestions");
+ let cards = Array.from(document.querySelectorAll(".card"));
+
+// 🔥 MOVE ALL EXCEL-GENERATED CARDS INTO THE CONTAINER ONCE
+cards.forEach(card => container.appendChild(card));
+
+
+  /* ================== ORIGINAL ORDER ================== */
+  const originalOrder = cards.map(c => c.dataset.id);
+
+  /* ================== RANDOM ORDER GENERATOR ================== */
+  function generateRandomOrder(base) {
+    let arr = [...base];
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  /* ================== INITIALISE FIXED RANDOM SETS ================== */
+  if (!localStorage.getItem(KEY_SET1) || !localStorage.getItem(KEY_SET2)) {
+
+  let set1 = generateRandomOrder(originalOrder);
+  let set2 = generateRandomOrder(originalOrder);
+
+  // force difference
+  while (JSON.stringify(set1) === JSON.stringify(set2)) {
+    set2 = generateRandomOrder(originalOrder);
+  }
+
+  localStorage.setItem(KEY_SET1, JSON.stringify(set1));
+  localStorage.setItem(KEY_SET2, JSON.stringify(set2));
+}
+
+
+
+  /* ================== APPLY ORDER ================== */
+function applyOrder(order) {
+  order.forEach(id => {
+    let el = cards.find(c => c.dataset.id === id);
+    if (el) container.appendChild(el); // just move, don't delete
+  });
+}
+
+
+
+  /* ================== RESTORE SAVED STATE ================== */
+  function restoreSavedState() {
+    saved.forEach(id => {
+      let card = document.querySelector(`.card[data-id='${id}']`);
+      if (card) markDone(card);
+    });
+  }
+
+  /* ================== APPLY LAST ACTIVE SET ================== */
+  if (activeSet === "set1") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  } else if (activeSet === "set2") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  } else {
+    applyOrder(originalOrder);
+  }
+
+  /* ================== SAVE QUESTION ================== */
+  window.saveQuestion = function (e, btn) {
+    e.stopPropagation();
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    if (!saved.includes(id)) {
+      saved.push(id);
+      localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+      markDone(card);
+      renderSaved();
+    updateQuestionCount();
+
+    }
+  };
+
+  /* ================== BOOKMARK QUESTION ================== */
+  window.bookmarkQuestion = function (e, btn) {
+    e.stopPropagation();
+
+    document.querySelectorAll(".card.bookmarked")
+      .forEach(c => c.classList.remove("bookmarked"));
+
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    localStorage.setItem(KEY_BOOKMARK, id);
+    card.classList.add("bookmarked");
+  };
+
+  /* ================== GO TO BOOKMARK ================== */
+  window.goToBookmark = function () {
+    let id = localStorage.getItem(KEY_BOOKMARK);
+    if (!id) return alert("No bookmark set");
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("bookmarked");
+    }
+  };
+
+  /* ================== SET SWITCHERS ================== */
+window.loadOriginal = function () {
+  applyOrder(originalOrder);
+  localStorage.setItem(KEY_ACTIVE_SET, "original");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+window.loadSet1 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set1");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+ window.loadSet2 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set2");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+
+  /* ================== HELPERS ================== */
+  function markDone(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Done";
+    btn.disabled = true;
+    btn.classList.add("done");
+  }
+
+  function resetButton(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Save";
+    btn.disabled = false;
+    btn.classList.remove("done");
+  }
+
+  function renderSaved() {
+    let box = document.getElementById("savedSection");
+    box.innerHTML = "";
+
+    saved.forEach(id => {
+      let original = document.querySelector(`.card[data-id='${id}']`);
+      if (!original) return;
+
+      let clone = original.cloneNode(true);
+      clone.querySelectorAll("button").forEach(b => b.remove());
+
+      let rm = document.createElement("button");
+      rm.textContent = "Remove";
+      rm.onclick = function (e) {
+        e.stopPropagation();
+        removeSaved(id);
+      };
+
+      clone.appendChild(rm);
+      box.appendChild(clone);
+    });
+  }
+
+  function removeSaved(id) {
+    saved = saved.filter(x => x !== id);
+    localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) resetButton(card);
+
+    renderSaved();
+  }
+
+  /* ================== RESTORE STATES ================== */
+  restoreSavedState();
+
+  if (bookmarkedId) {
+    let card = document.querySelector(`.card[data-id='${bookmarkedId}']`);
+    if (card) card.classList.add("bookmarked");
+  }
+
+  renderSaved();
+
+};
+
+window.toggleMenu = function(){
+  let m = document.getElementById("menu");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
+};
+
+
+
+window.goTop = function(){
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+};
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
