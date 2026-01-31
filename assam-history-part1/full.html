@@ -1048,7 +1048,10 @@ function updateQuestionCount() {
   const KEY_SET1 = "order_set1";
   const KEY_SET2 = "order_set2";
   const KEY_ACTIVE_SET = "activeSet"; // original | set1 | set2
-  const KEY_SAVED = "savedQ";
+const PAGE = location.pathname;
+const KEY_SAVED = "savedQ_" + PAGE;
+
+  
   const KEY_BOOKMARK = "bookmarkQ";
 
   /* ================== LOAD STORED DATA ================== */
@@ -1273,3 +1276,4 @@ window.goTop = function(){
 
 </body>
 </html>
+
