@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Q&A Notes</title>
+
+<style>
+
+/* ===== SOFT PAPER / GOVERNMENT PDF THEME ===== */
+
+body{
+  font-family: "Georgia", "Times New Roman", serif;
+  background:#F4E3C8;   /* paper beige */
+  color:#4b3a2f;        /* dark brown text */
+  padding:18px;
+  line-height:1.7;
+}
+
+/* Question Card */
+.card{
+  background:#F4E3C8;
+  padding:16px;
+  margin-bottom:16px;
+  border-radius:6px;
+  cursor:pointer;
+  border:1px solid #d8c7b0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Question */
+.card b{
+  color:#3E3327;
+  font-size:18px;
+  font-weight:600;
+}
+
+/* Answer */
+.ans{
+  display:none;
+  margin-top:12px;
+  color:#4b3a2f;
+  font-size:16px;
+}
+
+/* Show answer */
+.card.show .ans{
+  display:block;
+}
+
+/* Topic */
+.ans small{
+  display:block;
+  margin-top:6px;
+  color:#6b5647;
+  font-style:italic;
+}
+
+/* Buttons */
+button{
+  margin-top:10px;
+  background:#e8d6bd;
+  color:#3b2a20;
+  border:1px solid #c8b49a;
+  padding:6px 10px;
+  border-radius:4px;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+button:hover{
+  background:#ddc8aa;
+}
+
+/* Done button */
+button.done{
+  background:#cde0c6;
+  border-color:#7aa57a;
+  color:#2f5d2f;
+  cursor:default;
+}
+
+/* Headings */
+h2, h3{
+  color:#3b2a20;
+}
+
+/* Divider */
+hr{
+  border:none;
+  border-top:1px solid #d8c7b0;
+  margin:20px 0;
+}
+
+/* Saved + All Questions labels */
+.saved, .all-q{
+  color:#6b5647;
+}
+
+/* Bookmark highlight */
+.card.bookmarked{
+  border:2px solid #b08900;
+  background:#fff3c9;
+}
+
+/* Capitalise first letters */
+.card b,
+.ans{
+  text-transform: capitalize;
+}
+
+/* 3-dot menu */
+.menu-container{
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+
+.menu-btn{
+  font-size: 22px;
+  background: #e8d6bd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.menu{
+  display: none;
+  margin-top: 6px;
+  background: #f4e3c8;
+  border: 1px solid #c8b49a;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.menu button{
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.menu button:hover{
+  background:#ddc8aa;
+}
+
+
+/* Saved section: force Remove button to bottom */
+#savedSection .card{
+  display:flex;
+  flex-direction:column;
+}
+
+#savedSection button{
+  align-self:flex-start;   /* left aligned */
+  margin-top:12px;        /* space from question */
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-container">
+  <button class="menu-btn" onclick="toggleMenu()">+</button>
+  <div id="menu" class="menu">
+     <button onclick="goTop()">Go to Top</button>
+    <button onclick="goToBookmark()">Go to Bookmark</button>
+    <button onclick="loadOriginal()">Original Order</button>
+    <button onclick="loadSet1()">Random Set 1</button>
+    <button onclick="loadSet2()">Random Set 2</button>
+  </div>
+</div>
+
+<h2>ASSAM HISTORY</h2>
+
+<h3 class="saved">Saved (Weak) Questions</h3>
+<div id="savedSection"></div>
+
+<hr>
+
+
+
+<h3 class="all-q">All Questions</h3>
+<h3 id="qCount">Total Questions: 0</h3>
+
+
+<div id="allQuestions">
+
+
+
+
+<!-- PASTE EXCEL CONTENT BELOW -->
+
+
+
+<div class='card' data-id='2' onclick="this.classList.toggle('show')"><b>kalika  puran @</b><div class='ans'>sati puran<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='3' onclick="this.classList.toggle('show')"><b>kalika  puran language</b><div class='ans'>sanskrit<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='4' onclick="this.classList.toggle('show')"><b>kalika  puran written when? Reign</b><div class='ans'>10th to 11 th ce, pala dynasty<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='5' onclick="this.classList.toggle('show')"><b>yogini tantra language</b><div class='ans'>sanskrit<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='6' onclick="this.classList.toggle('show')"><b>yogini tantra written when? Reign</b><div class='ans'>16- 17th ce, koch:naranarayan<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='7' onclick="this.classList.toggle('show')"><b>haragauri smvada written when? Reign</b><div class='ans'>16th ce, koch: naranaryan<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='8' onclick="this.classList.toggle('show')"><b>haragauri smvada is about</b><div class='ans'>har: shiva gauri: parvati samvad: dialogue<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='9' onclick="this.classList.toggle('show')"><b>which buddhist lit mention about assam</b><div class='ans'>hevjra tantra<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='10' onclick="this.classList.toggle('show')"><b>hevjra tantra language? Belongs to which religion</b><div class='ans'>sanskrit, buddhist<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='11' onclick="this.classList.toggle('show')"><b>which manipuri lit mention about assam</b><div class='ans'>cheitharol kambaba<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='12' onclick="this.classList.toggle('show')"><b>tarik ul hind is written by</b><div class='ans'>al birutni<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='13' onclick="this.classList.toggle('show')"><b>tarik ul hind @</b><div class='ans'>kitab ul hind<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='14' onclick="this.classList.toggle('show')"><b>tarik ul hind is written during the reign of</b><div class='ans'>mahmud ghazni<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='15' onclick="this.classList.toggle('show')"><b>tarik ul hind in which language</b><div class='ans'>arabic<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='16' onclick="this.classList.toggle('show')"><b>which muslim lit mention about assam</b><div class='ans'>tarik ul hind<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='17' onclick="this.classList.toggle('show')"><b>pragjyotisha and kamrup mention in which books</b><div class='ans'>pragjyotisha: mahabharat, kamrup: puranas & tantras<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='18' onclick="this.classList.toggle('show')"><b>who wrote mahabharat</b><div class='ans'>ved vyasa<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='19' onclick="this.classList.toggle('show')"><b>who compiled puranas (18 mahapuranas)</b><div class='ans'>ved vyasa<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='20' onclick="this.classList.toggle('show')"><b>who compiled the four vedas</b><div class='ans'>ved vyasa<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='21' onclick="this.classList.toggle('show')"><b>ved vyasa "vyasa" means</b><div class='ans'>vyasa: compiler<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='22' onclick="this.classList.toggle('show')"><b>the term 'Assam' in assamese lit first used by</b><div class='ans'>shankardev<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='23' onclick="this.classList.toggle('show')"><b>ac to banikanta "assam" come from</b><div class='ans'>acham(tai)<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='24' onclick="this.classList.toggle('show')"><b>ac to banikanta pragjyotisha mean</b><div class='ans'>prag: eastern/former, jyotisha: astrology<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='25' onclick="this.classList.toggle('show')"><b>ac to banikanta the word pragjyotisha originates from which language</b><div class='ans'>austric<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='26' onclick="this.classList.toggle('show')"><b>borders of ancient assam as per "yogini tantra"</b><div class='ans'>n:karmagiri mt(bhutan), s:lakhya river(bg), w: karatoya (bg), east: dikhu (ng)<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='27' onclick="this.classList.toggle('show')"><b>the term kamrupa metion in which sources</b><div class='ans'>allahbad piller insc, raghuvansha,puranas & tantras<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='28' onclick="this.classList.toggle('show')"><b>ac to banikanta kamrup means</b><div class='ans'>origin from kamru/kamrut : magic/the art of invitaion of evil spirit<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='29' onclick="this.classList.toggle('show')"><b>allahbad piller ins. Also called</b><div class='ans'>prayag prasashti<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='30' onclick="this.classList.toggle('show')"><b>allahbad piller ins. Written during the reign of</b><div class='ans'>samudragupta<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='31' onclick="this.classList.toggle('show')"><b>allahbad piller ins. Author</b><div class='ans'>harishena<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='32' onclick="this.classList.toggle('show')"><b>allahbad piller ins. Writen when</b><div class='ans'>4th ce<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='33' onclick="this.classList.toggle('show')"><b>in allahbad piller ins. Assam is called</b><div class='ans'>kamrupa<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='34' onclick="this.classList.toggle('show')"><b>in allahbad piller ins. Kamrup's capital is</b><div class='ans'>pragjyotishpura<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='35' onclick="this.classList.toggle('show')"><b>in allahbad piller ins. Kamrup is mentioned as</b><div class='ans'>a tributery/frontier state<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='36' onclick="this.classList.toggle('show')"><b>who is kalidas</b><div class='ans'>greatest classical snaskrit poet and dramatist<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='37' onclick="this.classList.toggle('show')"><b>kalidas authored in which language</b><div class='ans'>sanskrit<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='38' onclick="this.classList.toggle('show')"><b>kalidas belongs to which period</b><div class='ans'>4-5 th ce<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='39' onclick="this.classList.toggle('show')"><b>kalidas court poet of</b><div class='ans'>chandragupta 2 or @vikramaditya<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='40' onclick="this.classList.toggle('show')"><b>kalidas wrote plays? Epics? Poetry?</b><div class='ans'>plays: abhijnan shakuntalam, malvikaagnimitra, vikramorvaishyam, epics: raghuvamsha, kumarsambhava, poetry: meghaduta, ritusamhara<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='41' onclick="this.classList.toggle('show')"><b>raghuvamsa authored by</b><div class='ans'>kalidas<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='42' onclick="this.classList.toggle('show')"><b>raghuvamsa is a </b><div class='ans'>mahakavya<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='43' onclick="this.classList.toggle('show')"><b>raghuvamsha written in which lang.</b><div class='ans'>sanskrit<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='44' onclick="this.classList.toggle('show')"><b>raghuvamsha written when</b><div class='ans'>written during gupta age around 4th ce<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='45' onclick="this.classList.toggle('show')"><b>raghuvamsha is about what</b><div class='ans'>describing the kings of raghu dynasty(about lord ram and his predecessors)<br><small>Topic: Misc</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='46' onclick="this.classList.toggle('show')"><b>earliset dynasty of assam</b><div class='ans'>danava dynasty<br><small>Topic: danava dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='47' onclick="this.classList.toggle('show')"><b>earliest king of assam</b><div class='ans'>mahiranga danava<br><small>Topic: danava dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='48' onclick="this.classList.toggle('show')"><b>who estb. Danava dynasty</b><div class='ans'>mahiranga danava<br><small>Topic: danava dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='49' onclick="this.classList.toggle('show')"><b>last ruler of danava dynasty? Who killed him</b><div class='ans'>ghatakasura, killed by narakasura<br><small>Topic: danava dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='50' onclick="this.classList.toggle('show')"><b>mahiranaga danava and his successors belongs to which tribe</b><div class='ans'>kirat <br><small>Topic: danava dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='51' onclick="this.classList.toggle('show')"><b>note down all three rulers of danava dynasty</b><div class='ans'>mahiranga, hatakasura, ghatakasura<br><small>Topic: danava dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='52' onclick="this.classList.toggle('show')"><b>second dynasty after danava dynasty? Estd by?</b><div class='ans'>bhauma dynasty, by narakasura<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='53' onclick="this.classList.toggle('show')"><b>founder of bhauma dynasty</b><div class='ans'>narakasura<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='54' onclick="this.classList.toggle('show')"><b>narakasura child of </b><div class='ans'>bhumi and boar incarnation of vishnu<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='55' onclick="this.classList.toggle('show')"><b>general's name of narakasura</b><div class='ans'>mura<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='56' onclick="this.classList.toggle('show')"><b>narakasura killed by</b><div class='ans'>krishna<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='57' onclick="this.classList.toggle('show')"><b>who cursed narakasura</b><div class='ans'>vasistha muni<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='58' onclick="this.classList.toggle('show')"><b>who is the son of narakasura</b><div class='ans'>bhagadutta<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='59' onclick="this.classList.toggle('show')"><b>which assam ruler is mentioned in mahabharat</b><div class='ans'>bhagadutta<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='60' onclick="this.classList.toggle('show')"><b>bhagadutta also known as</b><div class='ans'> sailalya<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='61' onclick="this.classList.toggle('show')"><b>which assam ruler perticipated in kurukhshetra war</b><div class='ans'>bhagadutta<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='62' onclick="this.classList.toggle('show')"><b>bhagadutta fought in mahabharat on which side</b><div class='ans'>kauravas (duryodhan)<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='63' onclick="this.classList.toggle('show')"><b>daughter name of bhagadutta</b><div class='ans'>bhanumati<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='64' onclick="this.classList.toggle('show')"><b>which assam ruler daughter married to duryodhan</b><div class='ans'>bhagadutta's daughter bhanumati<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='65' onclick="this.classList.toggle('show')"><b>who excavated digholipukhuri and why</b><div class='ans'>bhagadutta, on the occasion of his daughter bhanumati's mariiage to duryodhan<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='66' onclick="this.classList.toggle('show')"><b>bhagadutta's elephant name</b><div class='ans'>supratika, oirabot<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='67' onclick="this.classList.toggle('show')"><b>elephant supratika belongs to which ruler</b><div class='ans'>bhagadutta<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='68' onclick="this.classList.toggle('show')"><b>kurukhshetra war bw</b><div class='ans'>pandavas vs kauravas<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='69' onclick="this.classList.toggle('show')"><b>kurukhshetra where in modern india</b><div class='ans'>hayana<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='70' onclick="this.classList.toggle('show')"><b>duration of kurukhshetra war</b><div class='ans'>18 days<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='71' onclick="this.classList.toggle('show')"><b>krishnas role in kurukhshetra war</b><div class='ans'>charioter of arjun<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='72' onclick="this.classList.toggle('show')"><b>__ is preached before kurukhshetra war</b><div class='ans'>bhagavat gita<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='73' onclick="this.classList.toggle('show')"><b>who is vajradatta</b><div class='ans'>son and successor of bhagadutta<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='74' onclick="this.classList.toggle('show')"><b>under whom pragjyotisha became a centre of astrological study</b><div class='ans'>vajradatta<br><small>Topic: bhauma dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='75' onclick="this.classList.toggle('show')"><b>asura dynasty was estbl. By</b><div class='ans'>marichi<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='76' onclick="this.classList.toggle('show')"><b>last ruler of asura dynasty</b><div class='ans'>ban raja<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='77' onclick="this.classList.toggle('show')"><b>who is ban raja</b><div class='ans'>last ruler of asura dynasty<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='78' onclick="this.classList.toggle('show')"><b>ban raja was precedded by</b><div class='ans'> bali<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='79' onclick="this.classList.toggle('show')"><b>contemporary kings of ban raja</b><div class='ans'>darrang: banraja,kamrup: narakasura,sadiya: bhismak<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='80' onclick="this.classList.toggle('show')"><b>why tezpur is known as city of eternal romace</b><div class='ans'>usha + aniruddhas love story<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='81' onclick="this.classList.toggle('show')"><b>ban raja 's daughter name</b><div class='ans'>usha  <br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='82' onclick="this.classList.toggle('show')"><b>who is the grandson of krishna</b><div class='ans'>aniruddha<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='83' onclick="this.classList.toggle('show')"><b>who is chitralekha</b><div class='ans'>usha's friend<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='84' onclick="this.classList.toggle('show')"><b>usha & aniruddhas mariiage called</b><div class='ans'>gandharva bibah<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='85' onclick="this.classList.toggle('show')"><b>aniruddha was caputured by</b><div class='ans'>ban raja<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='86' onclick="this.classList.toggle('show')"><b>harihar yuddha written by</b><div class='ans'>haricharan kandali or ananta kandali<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='87' onclick="this.classList.toggle('show')"><b>harihar yuddha why</b><div class='ans'>ban raja captured krishna's grandson aniruddha to rescue him krishna (hari) fought with shiva(har) and ban raja<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='88' onclick="this.classList.toggle('show')"><b>who wrote kumar haran</b><div class='ans'>haricharan kandali or ananta kandali<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='89' onclick="this.classList.toggle('show')"><b>kumar haran is about</b><div class='ans'>usha aniruddha story<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='90' onclick="this.classList.toggle('show')"><b>who is ananta kandali</b><div class='ans'>anata kandali,wrote: harihar yuddha, kumar haran<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='91' onclick="this.classList.toggle('show')"><b>mahabhairav temple where? Built by</b><div class='ans'>tezpur, ban raja<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='92' onclick="this.classList.toggle('show')"><b>agnigarh where</b><div class='ans'>tezpur<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='93' onclick="this.classList.toggle('show')"><b>chitralekha udyan where? @</b><div class='ans'>tezpur, cole park<br><small>Topic: asura dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='94' onclick="this.classList.toggle('show')"><b>who was bhismak</b><div class='ans'>king of bhidarva(sadiya)<br><small>Topic: king of bhidarva(sadiya)</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='95' onclick="this.classList.toggle('show')"><b>who was the king of bhidarva(sadiya)</b><div class='ans'>bhismak<br><small>Topic: king of bhidarva(sadiya)</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='96' onclick="this.classList.toggle('show')"><b>rukmini is the daughter of </b><div class='ans'>bhismak king of bhidarva (sadiya)<br><small>Topic: king of bhidarva(sadiya)</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='97' onclick="this.classList.toggle('show')"><b>rukmini haran natak by</b><div class='ans'>shankardev<br><small>Topic: king of bhidarva(sadiya)</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='98' onclick="this.classList.toggle('show')"><b>rukmini was kidnapped and married by</b><div class='ans'>shri krishna<br><small>Topic: king of bhidarva(sadiya)</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='99' onclick="this.classList.toggle('show')"><b>varman dynasty ruled from and to</b><div class='ans'>350-650 ad<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='100' onclick="this.classList.toggle('show')"><b>contemporary of varman dynasty</b><div class='ans'>guptas<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='101' onclick="this.classList.toggle('show')"><b>umachal rock inscription related to which dynasty</b><div class='ans'>varman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='102' onclick="this.classList.toggle('show')"><b>nidhanpur cu plate grant where</b><div class='ans'>sylhet, bg<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='103' onclick="this.classList.toggle('show')"><b>badaganga inscription related to which place and ruler</b><div class='ans'>nagaon, bhutivarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='104' onclick="this.classList.toggle('show')"><b>doobi cu plate related to which ruler</b><div class='ans'>bhaskarvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='105' onclick="this.classList.toggle('show')"><b>nagajuri khanikargaon rock insc. Related to which palce and dynasty</b><div class='ans'>golaghat, varman <br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='106' onclick="this.classList.toggle('show')"><b>bhaskarvarman seal lost in nalanda found by</b><div class='ans'>david spooner<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='107' onclick="this.classList.toggle('show')"><b>first ruler of varman dynasty</b><div class='ans'>pushyvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='108' onclick="this.classList.toggle('show')"><b>which assamese ruler is contemporary to samudragupta</b><div class='ans'>pushyvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='109' onclick="this.classList.toggle('show')"><b>in varman dynasty first ruler to use the title "Maharahadhiraja"</b><div class='ans'>pushyvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='110' onclick="this.classList.toggle('show')"><b>2nd ruler of varman dynasty</b><div class='ans'>samudravarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='111' onclick="this.classList.toggle('show')"><b>who is known as fifth samudra</b><div class='ans'>samudravarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='112' onclick="this.classList.toggle('show')"><b>son of samudravarman</b><div class='ans'>balavarman 1<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='113' onclick="this.classList.toggle('show')"><b>balavarman daughter name</b><div class='ans'>amritprabha<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='114' onclick="this.classList.toggle('show')"><b>who was married to meghvahana of kashmir</b><div class='ans'>amritprabha daughter of balavarman 1<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='115' onclick="this.classList.toggle('show')"><b>which varman ruler annexed davaka kingdom</b><div class='ans'>kalyanvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='116' onclick="this.classList.toggle('show')"><b>during which ruler reign diplomatic relation with china happened</b><div class='ans'>kalyanvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='117' onclick="this.classList.toggle('show')"><b>which ruler waged war against gupta army for the first time</b><div class='ans'>mahendravarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='118' onclick="this.classList.toggle('show')"><b>first kamrup ruler to perform ashwamedha yojna</b><div class='ans'>mahendravarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='119' onclick="this.classList.toggle('show')"><b>ashwamedha yojna performed by which 3 varman rulers</b><div class='ans'>mahendravarman, mahabhutivarman, stithavarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='120' onclick="this.classList.toggle('show')"><b>which ruler annexed gupta territory pundravardhan</b><div class='ans'>mahabhutivarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='121' onclick="this.classList.toggle('show')"><b>which varman ruler gave land grant to 200 brahmans</b><div class='ans'>mahabhutivarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='122' onclick="this.classList.toggle('show')"><b>who is known as sri mriganka</b><div class='ans'>susthitavarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='123' onclick="this.classList.toggle('show')"><b>which kamrup ruler was credited by banabhatta as a powerful monarch</b><div class='ans'>susthitavarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='124' onclick="this.classList.toggle('show')"><b>father and brother of bhaskarvarman</b><div class='ans'>f: susthitavarman, b: supratisthitavarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='125' onclick="this.classList.toggle('show')"><b>which varman ruler first introduced elephant army</b><div class='ans'>susthitavarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='126' onclick="this.classList.toggle('show')"><b>after supratisthitavarman's death who succeded</b><div class='ans'>bhaskarvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='127' onclick="this.classList.toggle('show')"><b>bhaskarvarman reign from to</b><div class='ans'>594 - 650 ad<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='128' onclick="this.classList.toggle('show')"><b>last ruler of varman dynasty</b><div class='ans'>bhaskarvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='129' onclick="this.classList.toggle('show')"><b>who was "kumar raja" source</b><div class='ans'>bhaskarvarman, as per harchacharita<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='130' onclick="this.classList.toggle('show')"><b>hiuen tsang visited assam when and during whose reign</b><div class='ans'>642ad, bhaskarvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='131' onclick="this.classList.toggle('show')"><b>who is li yi po? </b><div class='ans'>the envoy of tang dynasty visited assam with hiuen tsang<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='132' onclick="this.classList.toggle('show')"><b>hiuen tsang @</b><div class='ans'>xuanzang<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='133' onclick="this.classList.toggle('show')"><b>hiuen tsnag visited india when</b><div class='ans'>630ad<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='134' onclick="this.classList.toggle('show')"><b>hiuen tsnang stayed in india for _ years</b><div class='ans'>15<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='135' onclick="this.classList.toggle('show')"><b>when did hiuen tsang left india</b><div class='ans'>644ad<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='136' onclick="this.classList.toggle('show')"><b>first chinese monk to travel india? During whose reign</b><div class='ans'>fahien, chandragupta 2 @ vikramaditya<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='137' onclick="this.classList.toggle('show')"><b>si yu ki's author</b><div class='ans'>hiuen tsang<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='138' onclick="this.classList.toggle('show')"><b>bhaskar varman's ambassador to harshavardhan</b><div class='ans'>hamsavega<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='139' onclick="this.classList.toggle('show')"><b>harshavardhan honoured which assam ruler at kannauj</b><div class='ans'>bhaskarvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='140' onclick="this.classList.toggle('show')"><b>which two ruler made an alliance against gaur of shasanka</b><div class='ans'>harshavardhan and bhaskarvarman<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='141' onclick="this.classList.toggle('show')"><b>hiuen tsang described bhakarvarman as</b><div class='ans'>the aristocratic king of eastern india<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='142' onclick="this.classList.toggle('show')"><b>in si yu ki bhaskarvarman was devotee of which god</b><div class='ans'>shiva<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='143' onclick="this.classList.toggle('show')"><b>as per hiuen tsang si yu ki kamrup area and its capital area</b><div class='ans'>kamrup: 10,000 li (2720 km sq or 1700 miles), capital : 30 li<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='144' onclick="this.classList.toggle('show')"><b>as per hiuen tsang si yu ki popular cultivates in assam</b><div class='ans'>jackfruit and coconut<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='145' onclick="this.classList.toggle('show')"><b>hiuen tsang visited india when</b><div class='ans'>630 ad<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='146' onclick="this.classList.toggle('show')"><b>battle of karnasubarna bw? When</b><div class='ans'>in 640 ad bw : harshavardhan + bhaskarvarman vs gaur of sasanka<br><small>Topic: varman dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='147' onclick="this.classList.toggle('show')"><b>general of harsha during battle of karnasubarna</b><div class='ans'>general bhandi<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='148' onclick="this.classList.toggle('show')"><b>result of battle of karnasubarna for bhaskarvarman</b><div class='ans'>recovered punravardhan inscribed about the war in nidhanpur cu plate<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='149' onclick="this.classList.toggle('show')"><b>umachal rock inscription in which lang.</b><div class='ans'>sanskrit<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='150' onclick="this.classList.toggle('show')"><b>salastambha dynasty duration</b><div class='ans'>670-900 ce<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='151' onclick="this.classList.toggle('show')"><b>salastambha dynasty also known as</b><div class='ans'>mlecha dynasty<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='152' onclick="this.classList.toggle('show')"><b>salastambha dynasty capital</b><div class='ans'>haruppeswar<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='153' onclick="this.classList.toggle('show')"><b>salastambha dynasty sources</b><div class='ans'>hayunthal plate, tezpur rock,<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='154' onclick="this.classList.toggle('show')"><b>salastambha dynasty founder</b><div class='ans'>salastambha @ avanti varman<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='155' onclick="this.classList.toggle('show')"><b>salastambha dynasty last ruler</b><div class='ans'>tyag simha<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='156' onclick="this.classList.toggle('show')"><b>mlecha dynasty founder</b><div class='ans'>salastambha @ avanti varman<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='157' onclick="this.classList.toggle('show')"><b>mlecha dyansty @</b><div class='ans'>salastambha dynasty<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='158' onclick="this.classList.toggle('show')"><b>daughte name of sri harsha/harshadeva</b><div class='ans'>rajyamati<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='159' onclick="this.classList.toggle('show')"><b>which ruler daughter married to a nepal king? Source</b><div class='ans'>harshadeva's daughter rajyamati married to nepal king jayadeva ac to pashupati incs. Nepal<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='160' onclick="this.classList.toggle('show')"><b>hayunthal cu plate belong to whom? Dynasty</b><div class='ans'>harjaravarman of salastambha dyn.<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='161' onclick="this.classList.toggle('show')"><b>tezpur rock insc. Belongs to</b><div class='ans'>harjaravarman of salastambha dyn.<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='162' onclick="this.classList.toggle('show')"><b>hazara pukhuri where</b><div class='ans'>tezpur<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='163' onclick="this.classList.toggle('show')"><b>which ruler is known for the tezpur grant</b><div class='ans'>vanamala varman<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='164' onclick="this.classList.toggle('show')"><b>which ruler is known for the parbatiya plate</b><div class='ans'>vanamala varman<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='165' onclick="this.classList.toggle('show')"><b>who is tyag simha </b><div class='ans'>last ruler of salastambha dynasty<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='166' onclick="this.classList.toggle('show')"><b>tutelary deity of salastabha</b><div class='ans'>hetuka sulin<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='167' onclick="this.classList.toggle('show')"><b>tutelary deity of mlechha dyn.</b><div class='ans'>hetuka sulin<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='168' onclick="this.classList.toggle('show')"><b>which chinese traveller visited assam during salastambha rule</b><div class='ans'>i-tsing/eng-sing/tising<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='169' onclick="this.classList.toggle('show')"><b>i-tsing the chinese traveller visited assam during which dynasty</b><div class='ans'>salastambha dynasty<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='170' onclick="this.classList.toggle('show')"><b>inscription- ruler?- location?umachal rock</b><div class='ans'>surendravarman, nilacchal<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='171' onclick="this.classList.toggle('show')"><b>inscription- ruler?- location?q.Dubi cu plate</b><div class='ans'>bhaskarvarman, kamrup<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='172' onclick="this.classList.toggle('show')"><b>inscription- ruler?- location?q.nidhanpur cu plate</b><div class='ans'>bhaskarvarman, sylhet bg<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='173' onclick="this.classList.toggle('show')"><b>inscription- ruler?q.nalanda clay seal</b><div class='ans'>bhaskarvarman<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='174' onclick="this.classList.toggle('show')"><b>inscription- ruler?- location?q.Tezpur rock insc.</b><div class='ans'>harjaravarman of salastambha dyn.<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='175' onclick="this.classList.toggle('show')"><b>inscription- ruler?- location?q.hayunthal cu plate</b><div class='ans'>harjaravarman of salastambha dyn., karbi hills<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='176' onclick="this.classList.toggle('show')"><b>inscription- location?-language?q.Kanai boroxi bowa?</b><div class='ans'>north ghy, assamese<br><small>Topic: salastambha dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='177' onclick="this.classList.toggle('show')"><b>founder of pala dyn.</b><div class='ans'>brahmapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='178' onclick="this.classList.toggle('show')"><b>capital pala dyn.</b><div class='ans'>kamrupnagara<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='179' onclick="this.classList.toggle('show')"><b>2nd ruler of pala dyn.</b><div class='ans'>ratnapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='180' onclick="this.classList.toggle('show')"><b>which ruler took the title of parameshawr parmabhattaka maharajadhiraja</b><div class='ans'>ratnapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='181' onclick="this.classList.toggle('show')"><b>which ruler made his capital at durjya</b><div class='ans'>ratnapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='182' onclick="this.classList.toggle('show')"><b>insc. during  ratnapalas reign</b><div class='ans'>bargaon(darrang),sualkuchi(kamrup)<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='183' onclick="this.classList.toggle('show')"><b>which is the most powerful ruler of pala</b><div class='ans'>dharmapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='184' onclick="this.classList.toggle('show')"><b>which pala ruler was efficient in administration, foreign policy, in war and peace</b><div class='ans'>dharmapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='185' onclick="this.classList.toggle('show')"><b>the sage kendu kulai lived during the reign of</b><div class='ans'>dharmapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='186' onclick="this.classList.toggle('show')"><b>last ruler of pala dynasty</b><div class='ans'>jayapala<br><small>Topic: pala dynas.</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='187' onclick="this.classList.toggle('show')"><b>first md invasion of assam when</b><div class='ans'>1206<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='188' onclick="this.classList.toggle('show')"><b>second md invasion of assam when</b><div class='ans'>1227<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='189' onclick="this.classList.toggle('show')"><b>the first two md invasion of assam 1206 & 1227 happened during the reign of</b><div class='ans'>pirthu<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='190' onclick="this.classList.toggle('show')"><b>prithu was killed by? When/</b><div class='ans'>by illtutmish son nasiruddin in 1228<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='191' onclick="this.classList.toggle('show')"><b>the third md invasion of assam by whom and when? Reign of?</b><div class='ans'>ikhtiyaruddin yuzbak or tughril khan, 1257 ad, sanidhya<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='192' onclick="this.classList.toggle('show')"><b>from when kamata rulers were called kamateshwar</b><div class='ans'>sanidhya transferred his capital from kamrup to kamatapur from then on <br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='193' onclick="this.classList.toggle('show')"><b>first muslim invasion of assam when</b><div class='ans'>1205-1206ad<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='194' onclick="this.classList.toggle('show')"><b>first muslim invasion of assam by</b><div class='ans'>md bakhtiyar khilji<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='195' onclick="this.classList.toggle('show')"><b>md bakhtiyar khilji was under which ruler</b><div class='ans'>he was the general of muhammad ghori<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='196' onclick="this.classList.toggle('show')"><b>md bakhtiyar khilji was the governer of _ during 1st md invsion of assam</b><div class='ans'>governer of bihar under ghori<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='197' onclick="this.classList.toggle('show')"><b>first muslim invasion of assam objective </b><div class='ans'>territorial expansion upto tibet and china<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='198' onclick="this.classList.toggle('show')"><b>first muslim invasion of assam started from where</b><div class='ans'>devkot, bengal <br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='199' onclick="this.classList.toggle('show')"><b>during first muslim invasion of assam which native helped bakhtiyar</b><div class='ans'>ali mech<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='200' onclick="this.classList.toggle('show')"><b>who is ali mech</b><div class='ans'>during first muslim invasion of assam he (a native) helped bakhtiyar<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='201' onclick="this.classList.toggle('show')"><b>which book mentions about the first muslim invasion of assam? Authored by</b><div class='ans'>tabaquat I nashiri by minhajuddin siraj<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='202' onclick="this.classList.toggle('show')"><b>tabaquat I nashiri authored by</b><div class='ans'>minhajuddin siraj<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='203' onclick="this.classList.toggle('show')"><b>during first muslim invasion of assam who was the ruler in bengal</b><div class='ans'>laxman sena of sena dynas.<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='204' onclick="this.classList.toggle('show')"><b>1st md invasion of assam fight bw? Who won</b><div class='ans'>mohhamad ghori (bakhtiyar khalji) vs prithu<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='205' onclick="this.classList.toggle('show')"><b>first muslim invasion of assam is mentioned in which 2 sources</b><div class='ans'>tabaquat I nashiri by minhajuddin siraj and kanai boroxi bowa rock insc. (n. ghy)<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='206' onclick="this.classList.toggle('show')"><b>2nd md invasion by whom? When?</b><div class='ans'>ghiyasuddin iwaz khalzi (under iltutmish), 1227<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='207' onclick="this.classList.toggle('show')"><b>2nd md invasion source</b><div class='ans'>gachtal inscription nagaon<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='208' onclick="this.classList.toggle('show')"><b>prithu was killed by? When?</b><div class='ans'>nashiruddin son of illtutmish, during the 2md invasion in 1228<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='209' onclick="this.classList.toggle('show')"><b>after 2nd md invasion of asssam _ placed _ to rule assam ?</b><div class='ans'>nashiruddin, sandhya<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='210' onclick="this.classList.toggle('show')"><b>in which source prithu is mentioned as rai of kamrup</b><div class='ans'>tabaquat I nashiri by minhaj uddin siraj<br><small>Topic: md invasion</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='211' onclick="this.classList.toggle('show')"><b>kamata kingdom was mainly in</b><div class='ans'>western kamrup<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='212' onclick="this.classList.toggle('show')"><b>kamata kingdom estd. By</b><div class='ans'>sandhya<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='213' onclick="this.classList.toggle('show')"><b>capital of kamata kingdom</b><div class='ans'>kamatapur<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='214' onclick="this.classList.toggle('show')"><b>who is the first ruler to took the title of kamateshwar and belong to which dynasty</b><div class='ans'>sandhya, kamata kingdom<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='215' onclick="this.classList.toggle('show')"><b>in 1257 _ attacked kamata kingdom during _ rule</b><div class='ans'>in 1257 (malik ikhtiyaruddin iuzbak @ tughril) attacked kamata kingdom during (sandhya's) rule<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='216' onclick="this.classList.toggle('show')"><b>the last kamata rule was</b><div class='ans'>singhdhawj<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='217' onclick="this.classList.toggle('show')"><b>who was the minister of singhdhawj</b><div class='ans'>pratapdhwaj<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='218' onclick="this.classList.toggle('show')"><b>after singhadhawj who became king</b><div class='ans'>pratapdhwaj by killing singhdhawj<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='219' onclick="this.classList.toggle('show')"><b>after pratapdhaw who became the king</b><div class='ans'>durlabh narayan<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='220' onclick="this.classList.toggle('show')"><b>the great grandfather of shankardev's brahmin custody on which ruler</b><div class='ans'>durlabh narayan<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='221' onclick="this.classList.toggle('show')"><b>courtpoets of durlabh narayan</b><div class='ans'>hem saraswati, harivara vipra, rudra kandali<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='222' onclick="this.classList.toggle('show')"><b>which ahom king attacked pratapdhaw</b><div class='ans'>4th ahom king sukhangpha<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='223' onclick="this.classList.toggle('show')"><b>pratapdhawj daughter name</b><div class='ans'>rajanee "married to sukhangpha"<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='224' onclick="this.classList.toggle('show')"><b>who is chao pulai</b><div class='ans'>alias:tao chulai "son of rajanee + sukhangpha" also the charing king<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='225' onclick="this.classList.toggle('show')"><b>durlabhnarayan's capital where? Alias name</b><div class='ans'>gauria near kochbehar, @gaureshwar<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='226' onclick="this.classList.toggle('show')"><b>who wrote guru charita? What is it</b><div class='ans'>Guru Charita, written by Ramcharan Thakur, is a hagiographical work describing the life of Aniruddhadeva, founder of the Mayamara Satra.<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='227' onclick="this.classList.toggle('show')"><b>founder of the Mayamara Satra.</b><div class='ans'>Sri Sri Aniruddhadeva(A disciple of Srimanta Sankardev)<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='228' onclick="this.classList.toggle('show')"><b>as per guru charit dharmanarayan and durlabhnarayan</b><div class='ans'>dharma: kamateshwar, durlab: gaureshwar<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='229' onclick="this.classList.toggle('show')"><b>when and during whose reign md bin tughlaq attacked assam</b><div class='ans'>in 1331ad, reign: durlabh narayan but failed to conquer kamata<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='230' onclick="this.classList.toggle('show')"><b>1331 tughlaq kamata attack source</b><div class='ans'>alamgir nama by mirza md qazim<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='231' onclick="this.classList.toggle('show')"><b>as per _ how many times tughlaq attacked kamata</b><div class='ans'>alamgir nama by mirza md qazim, 2 times<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='232' onclick="this.classList.toggle('show')"><b>Alamgir Nama was written by whom?</b><div class='ans'>Muhammad Kazim<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='233' onclick="this.classList.toggle('show')"><b>Alamgir Nama is related to which Mughal ruler?</b><div class='ans'>Aurangzeb<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='234' onclick="this.classList.toggle('show')"><b>courtpoets of durlabh narayan</b><div class='ans'>hem saraswati, harivara vipra, rudra kandali<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='235' onclick="this.classList.toggle('show')"><b>what is jaydratha badha? Who wrote it</b><div class='ans'>Assamese poetic retelling ,jayadratha Badh was written by Hem Saraswati in Assamese, based on the Mahabharata<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='236' onclick="this.classList.toggle('show')"><b>ac to _ who is deva mahamani</b><div class='ans'>ac to madhav kandali durlabh narayan is<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='237' onclick="this.classList.toggle('show')"><b>who is panch gaureshwar</b><div class='ans'>son of gaureshwar dulabhnarayan : indra narayan<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='238' onclick="this.classList.toggle('show')"><b>when did sikandar sah invaded kamata? Reign?</b><div class='ans'>1362, indra narayan<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='239' onclick="this.classList.toggle('show')"><b>sikandar sah rech nagaon throug</b><div class='ans'>mymensing<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='240' onclick="this.classList.toggle('show')"><b>mention the rulers names of kamata kindgdom starting from sandhya</b><div class='ans'>sandhya>sindhu rai> singhadhawaj> pratapdhawj> dharmanarayan> durlabhnarayan> indra narayan<br><small>Topic: kamata kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='241' onclick="this.classList.toggle('show')"><b>who killed indranrayan and estblished _ </b><div class='ans'>arimatta, baro bhuya rule<br><small>Topic: baro bhuyan</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='242' onclick="this.classList.toggle('show')"><b>who estd. Baro bhuya rule</b><div class='ans'>arimatta by killing indranarayan of kamata kingdom<br><small>Topic: baro bhuyan</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='243' onclick="this.classList.toggle('show')"><b>name the rulers of baro bhuyan rule</b><div class='ans'>arimatta>gajanka>sukranka>mriganka<br><small>Topic: baro bhuyan</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='244' onclick="this.classList.toggle('show')"><b>last ruler of baro bhuyan</b><div class='ans'>mriganka<br><small>Topic: baro bhuyan</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='245' onclick="this.classList.toggle('show')"><b>during whose rule did azam sah attack</b><div class='ans'>gajanka of baro bhuyan<br><small>Topic: baro bhuyan</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='246' onclick="this.classList.toggle('show')"><b>who married the daughter (name?) of gajanka </b><div class='ans'>sudangpha + bhajani<br><small>Topic: baro bhuyan</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='247' onclick="this.classList.toggle('show')"><b>khen dynasty estd. By</b><div class='ans'>niladhvaj khen<br><small>Topic: khen dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='248' onclick="this.classList.toggle('show')"><b>after last bhuya mriganka what dynasty</b><div class='ans'>khen dynasty by niladhav khen<br><small>Topic: khen dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='249' onclick="this.classList.toggle('show')"><b>grandson of niladhvaj khen</b><div class='ans'>chakradhvaj<br><small>Topic: khen dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='250' onclick="this.classList.toggle('show')"><b>koch dyn. Estd by? Duration </b><div class='ans'>bishu @viswa singha, 1515-1949 ad<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='251' onclick="this.classList.toggle('show')"><b>father and mother of bishu @vishwa singha</b><div class='ans'>m: hira f:hariya mandal<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='252' onclick="this.classList.toggle('show')"><b>hira who is she?</b><div class='ans'>mother of bishuwa singha/daughter of hajo/wife of hariya mandal<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='253' onclick="this.classList.toggle('show')"><b>naranaryan @</b><div class='ans'>malladev<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='254' onclick="this.classList.toggle('show')"><b>father of naranaryan</b><div class='ans'>vishwa singha<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='255' onclick="this.classList.toggle('show')"><b>brother of naranaryan</b><div class='ans'> chilarai<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='256' onclick="this.classList.toggle('show')"><b>viswa singha total son the names of 3 prominent sons</b><div class='ans'>total 18sons. Naranaryan, chilarai, gohain kamal + 15 others<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='257' onclick="this.classList.toggle('show')"><b>who are the father of lakshmi singha, father of raghudev</b><div class='ans'>naranarayan- > lakshmi singha, chilarai-> raghudev<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='258' onclick="this.classList.toggle('show')"><b>tribe of both sides parents of bishwa singha</b><div class='ans'>father: hariya mandal(mech)    mother: hira (daughter of hajo)(koch)<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='259' onclick="this.classList.toggle('show')"><b>during whose reign koch reach its zenith</b><div class='ans'>naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='260' onclick="this.classList.toggle('show')"><b>koch dyn. Later Separated into ? Mention rulers ?</b><div class='ans'>koch bihar (lakshmi singha son of naranaryan), koch hajo (raghudev son of chilarai)<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='261' onclick="this.classList.toggle('show')"><b>koch kingdom (vishwa singha) estd by defeating </b><div class='ans'>bhuyans<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='262' onclick="this.classList.toggle('show')"><b>temporary & real capital of koch</b><div class='ans'>chikana, later: kamatapur<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='263' onclick="this.classList.toggle('show')"><b>ahom & mughal contemporary of bishwa singha (1515-1540)</b><div class='ans'>suhungmung @dihingia raja, 1515-1530: babur then 1530-1540: humayun<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='264' onclick="this.classList.toggle('show')"><b>bishwa singha reign duration</b><div class='ans'>1515 to 1540 ad<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='265' onclick="this.classList.toggle('show')"><b>which koch kingh first adopted hinduism</b><div class='ans'>bishwa singha<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='266' onclick="this.classList.toggle('show')"><b>bishwa singha capital at</b><div class='ans'>kamatapur<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='267' onclick="this.classList.toggle('show')"><b>first kock ruler to conduct census in in koch kingdom</b><div class='ans'>bishwa singha<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='268' onclick="this.classList.toggle('show')"><b>darrang rajbongshwali what is it? Authore? When</b><div class='ans'>history of koch rulers, suryakhari daivajna, 16th to 17th ce<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='269' onclick="this.classList.toggle('show')"><b>bishwa singha died when</b><div class='ans'>1540<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='270' onclick="this.classList.toggle('show')"><b>how many queens and sons bishwa singha had</b><div class='ans'>18 queens and 18 sons<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='271' onclick="this.classList.toggle('show')"><b>bishwasingha nominated whom to be the next king after him</b><div class='ans'>malladev @naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='272' onclick="this.classList.toggle('show')"><b>naranaryan @</b><div class='ans'>malladev<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='273' onclick="this.classList.toggle('show')"><b>naranaryan reign duration</b><div class='ans'>1540 to 1587 ce<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='274' onclick="this.classList.toggle('show')"><b>first price to study in banaras from assam</b><div class='ans'>naranaryan and chilarai<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='275' onclick="this.classList.toggle('show')"><b>contemporary ahom kingh of naranaryan</b><div class='ans'>suklengmung<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='276' onclick="this.classList.toggle('show')"><b>who is known as vikramaditya of the east</b><div class='ans'>naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='277' onclick="this.classList.toggle('show')"><b>who is nara singha</b><div class='ans'>nara singha is the borther of naranarayan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='278' onclick="this.classList.toggle('show')"><b>who? When? The kamakhya temple was rebuit</b><div class='ans'>in 1565, naranarayan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='279' onclick="this.classList.toggle('show')"><b>hygriv madhab mandir- where? Renovated by? Renovation completed by</b><div class='ans'>hajo, naranarayan, completed by raghudev (son of chilarai)<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='280' onclick="this.classList.toggle('show')"><b>chilarai @</b><div class='ans'>sukladhawaj, sangramsingha<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='281' onclick="this.classList.toggle('show')"><b>senapati of naranaryan</b><div class='ans'>chilarai<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='282' onclick="this.classList.toggle('show')"><b>shankardev was patronged by which king</b><div class='ans'>naranarayan <br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='283' onclick="this.classList.toggle('show')"><b>madhabdev was patronged by which king</b><div class='ans'>naranarayan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='284' onclick="this.classList.toggle('show')"><b>where is mathadang? What is the significance </b><div class='ans'>sivsagar, ahom buried koch soldiers heads there<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='285' onclick="this.classList.toggle('show')"><b>who crossed bharali river in one jump like a kite</b><div class='ans'>chilarai @sukladhawj<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='286' onclick="this.classList.toggle('show')"><b>who is sangramsingha? Why he is called?</b><div class='ans'>chilarai had a good knowledge in samarbidya so he called that…. (samarbidya= art of war)<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='287' onclick="this.classList.toggle('show')"><b>who? When? Gohain kamal ali road was rubilt</b><div class='ans'>ordered by naranaryan, built by his brother gohain kamal, built during the war with ahom in 1562<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='288' onclick="this.classList.toggle('show')"><b>gohain kamal ali road path? Total length?</b><div class='ans'>300 miles from coch bihar to naranarayanpur<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='289' onclick="this.classList.toggle('show')"><b>where is charaikhorong hill? Singnificance?</b><div class='ans'>namrup-dibrugarh, during the war of ahom-koch sukhampha @khora roja fled to charaikhrong in fear of naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='290' onclick="this.classList.toggle('show')"><b>where is namrup</b><div class='ans'>dibrugarh<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='291' onclick="this.classList.toggle('show')"><b>treaty of majuli b/w?</b><div class='ans'>ahom: sukhampha @khora roha - koch: naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='292' onclick="this.classList.toggle('show')"><b>treaty of majuli when</b><div class='ans'>in 1563<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='293' onclick="this.classList.toggle('show')"><b>treaty bw koch and ahom is</b><div class='ans'>treaty of majuli 1563<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='294' onclick="this.classList.toggle('show')"><b>after which treaty and when ahom kingdom went under control of koch</b><div class='ans'>1563 treaty of majuli<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='295' onclick="this.classList.toggle('show')"><b>who captured chilarai</b><div class='ans'>suleiman kurrani of gaur<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='296' onclick="this.classList.toggle('show')"><b>during which ahom king the relation bw ahom-koch were at peak</b><div class='ans'>pratap singha<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='297' onclick="this.classList.toggle('show')"><b>when did suleiman kurrani of gaur attacked koch kingdom</b><div class='ans'>1567<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='298' onclick="this.classList.toggle('show')"><b>who is kalapahar</b><div class='ans'>kalapahar a convert islam was the senapati of suleiman kurrani<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='299' onclick="this.classList.toggle('show')"><b>contemporary mughal ruler of naranrayan</b><div class='ans'>akbar<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='300' onclick="this.classList.toggle('show')"><b>chilarai died from</b><div class='ans'>chicken pox<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='301' onclick="this.classList.toggle('show')"><b>naranaryan had a friendly relation with which mughal ruler</b><div class='ans'>akbar<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='302' onclick="this.classList.toggle('show')"><b>which koch king had a only child in old age</b><div class='ans'>naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='303' onclick="this.classList.toggle('show')"><b>which king rebuilt the kamakhya temple and when?</b><div class='ans'>naranaryan, 1565<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='304' onclick="this.classList.toggle('show')"><b>hygriv madhab mandir renovation work stated by which king</b><div class='ans'>naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='305' onclick="this.classList.toggle('show')"><b>hygriv madhab mandir renovation work completed by which king? When?</b><div class='ans'>raghudev, in 1583<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='306' onclick="this.classList.toggle('show')"><b>neovaishnavism movement was carried out in lower and mid assam under the reign of?</b><div class='ans'>naranaryan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='307' onclick="this.classList.toggle('show')"><b>who is kamalapriya</b><div class='ans'>kamalapriya neice of shankardev, married by chilarai<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='308' onclick="this.classList.toggle('show')"><b>chilarai married whom</b><div class='ans'>kamalapriya neice of shankardev<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='309' onclick="this.classList.toggle('show')"><b>name the poets who got patronged under naranaryan</b><div class='ans'>shankardev>purushuttam vidyavagish>ram saraswati>ananta kandali> madhabdev>bakul kayastha<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='310' onclick="this.classList.toggle('show')"><b>who is ralph fitch</b><div class='ans'>foreign traveller>visited koch during naranaryan in 1583<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='311' onclick="this.classList.toggle('show')"><b>which foreign treveller visited assam during naranaryan reign</b><div class='ans'>ralph fitch in 1583<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='312' onclick="this.classList.toggle('show')"><b>during which dynasty assam had a trade relation with china ? Source?</b><div class='ans'>koch naranaryan, ral fitch, trade of spice<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='313' onclick="this.classList.toggle('show')"><b>currency of koch kingdom? What shape</b><div class='ans'>naranarayani, shape: hexagonal or round<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='314' onclick="this.classList.toggle('show')"><b>who is the son of raghudev</b><div class='ans'>parikhshit narayan<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='315' onclick="this.classList.toggle('show')"><b>who is mangola devi</b><div class='ans'>daughter of parikhsit narayan married to pratap singha<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='316' onclick="this.classList.toggle('show')"><b>who is parikshit narayan</b><div class='ans'>son of raghudev and grand son on chilarai, 2nd ruler o koch hajo<br><small>Topic: koch dynasty</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='317' onclick="this.classList.toggle('show')"><b>chutiya kingdom aka</b><div class='ans'>sadiya kingdom<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='318' onclick="this.classList.toggle('show')"><b>who established chutiya kingdom? When?</b><div class='ans'>birpal, in 1187<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='319' onclick="this.classList.toggle('show')"><b>who is birpal</b><div class='ans'>founder of chutiya kingdom, descendent of bhismak<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='320' onclick="this.classList.toggle('show')"><b>greatest ruler of chutiya kingdom</b><div class='ans'>gaurinarayan or ratnadhawjpal<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='321' onclick="this.classList.toggle('show')"><b>who is gaurinarayan</b><div class='ans'>son of birpal of chutiya kingdom<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='322' onclick="this.classList.toggle('show')"><b>capital of chutiya kingdom</b><div class='ans'>ratnapur(majuli)<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='323' onclick="this.classList.toggle('show')"><b>who built ratnapur as capital</b><div class='ans'>gaurinarayan or ratnadhawjpal<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='324' onclick="this.classList.toggle('show')"><b>majuli old name during chutiya kingdom</b><div class='ans'>ratnapur(majuli)<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='325' onclick="this.classList.toggle('show')"><b>last powerful ruler vs last ruler of chutiya kindom</b><div class='ans'>last powerful: dhirnarayan or dharmadhawjpal, last ruler: nitipal<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='326' onclick="this.classList.toggle('show')"><b>when & by whom chutiya kingdom was annexed </b><div class='ans'>in 1523 by suhungmund<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='327' onclick="this.classList.toggle('show')"><b>ahom after annexing chutiya kingdom created which post to adminster it</b><div class='ans'>sadiyakhow gohain<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='328' onclick="this.classList.toggle('show')"><b>sadiya before 12th ad was known as</b><div class='ans'>sindhukhsetra<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='329' onclick="this.classList.toggle('show')"><b>where is vidarba and the capital?</b><div class='ans'>ac to mythology sadiya was called vidarba, capital: kundilnagar<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='330' onclick="this.classList.toggle('show')"><b>during which ahom ruler chutiya and ahom had a great relationship</b><div class='ans'>sutupha<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='331' onclick="this.classList.toggle('show')"><b>ahom king sutupha was killed by</b><div class='ans'>chutiya king<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='332' onclick="this.classList.toggle('show')"><b>sati sadhini daughter of</b><div class='ans'>dhirnarayan or dharmadhwajpal of chutiya <br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='333' onclick="this.classList.toggle('show')"><b>during the reign of ahom king _ , chutiya king _ attacked ahom in _</b><div class='ans'>suhungmung, dhirnaryan/dharmadhwajpal, in 1513<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='334' onclick="this.classList.toggle('show')"><b>when did suhungmung attacked chutiya and who was the king</b><div class='ans'>in 1523, nitipal<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='335' onclick="this.classList.toggle('show')"><b>where is chandragiri hill? Significance?</b><div class='ans'>sadiya, when in 1523 suhungmung attacked chutiya kingdom nitipal with his wife and famile run towards chandragiri hill nitipal was killed and his wife sati sadhini jumped from the hill<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='336' onclick="this.classList.toggle('show')"><b>who is sati sadhini</b><div class='ans'>she is the daughter of chutiya king dhirnarayan or dharmadhwajpal and wife of nitipal, jumped from chandragiri hill when suhungmung attacked<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='337' onclick="this.classList.toggle('show')"><b>who was the sadiyakhowa gohain after annexing chutiya kingdom</b><div class='ans'>pharsengmund<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='338' onclick="this.classList.toggle('show')"><b>sati sadhini daivas when</b><div class='ans'>21st april<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='339' onclick="this.classList.toggle('show')"><b>21st april in assam clebrated as</b><div class='ans'>sati sadhini divas<br><small>Topic: chutiya kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='340' onclick="this.classList.toggle('show')"><b>capital of kachari kingdom</b><div class='ans'>first dimapur, later maibang<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='341' onclick="this.classList.toggle('show')"><b>kacharis are the descendent of </b><div class='ans'>ghatotkach<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='342' onclick="this.classList.toggle('show')"><b>who is hidimba</b><div class='ans'>when panchpandav came to cachar for banbas there bhim married to hidimba and had a son name ghatotkach<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='343' onclick="this.classList.toggle('show')"><b>panchpandav came for banbas where in assam</b><div class='ans'>cachar<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='344' onclick="this.classList.toggle('show')"><b>kacharis are known by many names what are those?</b><div class='ans'>mech, dimasa, bodo, bodo fisa<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='345' onclick="this.classList.toggle('show')"><b>when did ahom annexed kachari kingdom? By which king</b><div class='ans'>in 1526 by suhungmung<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='346' onclick="this.classList.toggle('show')"><b>what are thapita and sanchita</b><div class='ans'>kacharis are called thapita and sanchita of the ahom<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='347' onclick="this.classList.toggle('show')"><b>when was kachari kingdom annexed by ahom, when was annexed by koch</b><div class='ans'>ahom:1526, koch:1562<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='348' onclick="this.classList.toggle('show')"><b>who is the last ruler of kachari kingdom</b><div class='ans'>govindachandra<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='349' onclick="this.classList.toggle('show')"><b>when did kachari kingdom came under british? Who was the last king</b><div class='ans'>1828, govindachandra,In 1828, the Kachari kingdom was annexed under the Doctrine of Lapse after the king Govinda Chandra was killed.<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='350' onclick="this.classList.toggle('show')"><b>where is kachari fort</b><div class='ans'>cachar<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='351' onclick="this.classList.toggle('show')"><b>under which british policy kachari kindgom came under british</b><div class='ans'>doctrin of lapse by lord delhousie<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='352' onclick="this.classList.toggle('show')"><b>doctrin of lapse introduced by</b><div class='ans'>lord delhousie<br><small>Topic: kachari kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='353' onclick="this.classList.toggle('show')"><b>first ruler of jaintia kingdom</b><div class='ans'>parvat roy<br><small>Topic: jaintia kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='354' onclick="this.classList.toggle('show')"><b>last ruler of jaintia kingdom</b><div class='ans'>rajendra singh<br><small>Topic: jaintia kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='355' onclick="this.classList.toggle('show')"><b>jaintia kingdom territory in modern world</b><div class='ans'>meghalaya and sylhet<br><small>Topic: jaintia kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='356' onclick="this.classList.toggle('show')"><b>capital of jaintia kingdom</b><div class='ans'>jaintpur<br><small>Topic: jaintia kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='357' onclick="this.classList.toggle('show')"><b>which koch ruler constructed an brick building in the capital of jaintia kingdom</b><div class='ans'>lakshmi narayan<br><small>Topic: jaintia kingdom</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+
+
+
+
+<!-- PASTE EXCEL CONTENT above -->
+
+<script>
+window.onload = function () {
+
+function updateQuestionCount() {
+  let count = document.querySelectorAll("#allQuestions .card").length;
+  document.getElementById("qCount").innerText =
+    "Total Questions: " + count;
+}
+
+
+  /* ================== STORAGE KEYS ================== */
+  const KEY_SET1 = "order_set1";
+  const KEY_SET2 = "order_set2";
+  const KEY_ACTIVE_SET = "activeSet"; // original | set1 | set2
+  const PAGE = location.pathname;
+const KEY_SAVED = "savedQ_" + PAGE;
+
+  const KEY_BOOKMARK = "bookmarkQ";
+
+  /* ================== LOAD STORED DATA ================== */
+  let saved = JSON.parse(localStorage.getItem(KEY_SAVED)) || [];
+  let bookmarkedId = localStorage.getItem(KEY_BOOKMARK);
+  let activeSet = localStorage.getItem(KEY_ACTIVE_SET) || "original";
+
+ let container = document.getElementById("allQuestions");
+ let cards = Array.from(document.querySelectorAll(".card"));
+
+// 🔥 MOVE ALL EXCEL-GENERATED CARDS INTO THE CONTAINER ONCE
+cards.forEach(card => container.appendChild(card));
+
+
+  /* ================== ORIGINAL ORDER ================== */
+  const originalOrder = cards.map(c => c.dataset.id);
+
+  /* ================== RANDOM ORDER GENERATOR ================== */
+  function generateRandomOrder(base) {
+    let arr = [...base];
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  /* ================== INITIALISE FIXED RANDOM SETS ================== */
+  if (!localStorage.getItem(KEY_SET1) || !localStorage.getItem(KEY_SET2)) {
+
+  let set1 = generateRandomOrder(originalOrder);
+  let set2 = generateRandomOrder(originalOrder);
+
+  // force difference
+  while (JSON.stringify(set1) === JSON.stringify(set2)) {
+    set2 = generateRandomOrder(originalOrder);
+  }
+
+  localStorage.setItem(KEY_SET1, JSON.stringify(set1));
+  localStorage.setItem(KEY_SET2, JSON.stringify(set2));
+}
+
+
+
+  /* ================== APPLY ORDER ================== */
+function applyOrder(order) {
+  order.forEach(id => {
+    let el = cards.find(c => c.dataset.id === id);
+    if (el) container.appendChild(el); // just move, don't delete
+  });
+}
+
+
+
+  /* ================== RESTORE SAVED STATE ================== */
+  function restoreSavedState() {
+    saved.forEach(id => {
+      let card = document.querySelector(`.card[data-id='${id}']`);
+      if (card) markDone(card);
+    });
+  }
+
+  /* ================== APPLY LAST ACTIVE SET ================== */
+  if (activeSet === "set1") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  } else if (activeSet === "set2") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  } else {
+    applyOrder(originalOrder);
+  }
+
+  /* ================== SAVE QUESTION ================== */
+  window.saveQuestion = function (e, btn) {
+    e.stopPropagation();
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    if (!saved.includes(id)) {
+      saved.push(id);
+      localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+      markDone(card);
+      renderSaved();
+    updateQuestionCount();
+
+    }
+  };
+
+  /* ================== BOOKMARK QUESTION ================== */
+  window.bookmarkQuestion = function (e, btn) {
+    e.stopPropagation();
+
+    document.querySelectorAll(".card.bookmarked")
+      .forEach(c => c.classList.remove("bookmarked"));
+
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    localStorage.setItem(KEY_BOOKMARK, id);
+    card.classList.add("bookmarked");
+  };
+
+  /* ================== GO TO BOOKMARK ================== */
+  window.goToBookmark = function () {
+    let id = localStorage.getItem(KEY_BOOKMARK);
+    if (!id) return alert("No bookmark set");
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("bookmarked");
+    }
+  };
+
+  /* ================== SET SWITCHERS ================== */
+window.loadOriginal = function () {
+  applyOrder(originalOrder);
+  localStorage.setItem(KEY_ACTIVE_SET, "original");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+window.loadSet1 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set1");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+ window.loadSet2 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set2");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+
+  /* ================== HELPERS ================== */
+  function markDone(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Done";
+    btn.disabled = true;
+    btn.classList.add("done");
+  }
+
+  function resetButton(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Save";
+    btn.disabled = false;
+    btn.classList.remove("done");
+  }
+
+  function renderSaved() {
+    let box = document.getElementById("savedSection");
+    box.innerHTML = "";
+
+    saved.forEach(id => {
+      let original = document.querySelector(`.card[data-id='${id}']`);
+      if (!original) return;
+
+      let clone = original.cloneNode(true);
+      clone.querySelectorAll("button").forEach(b => b.remove());
+
+      let rm = document.createElement("button");
+      rm.textContent = "Remove";
+      rm.onclick = function (e) {
+        e.stopPropagation();
+        removeSaved(id);
+      };
+
+      clone.appendChild(rm);
+      box.appendChild(clone);
+    });
+  }
+
+  function removeSaved(id) {
+    saved = saved.filter(x => x !== id);
+    localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) resetButton(card);
+
+    renderSaved();
+  }
+
+  /* ================== RESTORE STATES ================== */
+  restoreSavedState();
+
+  if (bookmarkedId) {
+    let card = document.querySelector(`.card[data-id='${bookmarkedId}']`);
+    if (card) card.classList.add("bookmarked");
+  }
+
+  renderSaved();
+
+};
+
+window.toggleMenu = function(){
+  let m = document.getElementById("menu");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
+};
+
+
+
+window.goTop = function(){
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+};
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

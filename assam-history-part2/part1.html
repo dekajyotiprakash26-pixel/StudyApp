@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Q&A Notes</title>
+
+<style>
+
+/* ===== SOFT PAPER / GOVERNMENT PDF THEME ===== */
+
+body{
+  font-family: "Georgia", "Times New Roman", serif;
+  background:#F4E3C8;   /* paper beige */
+  color:#4b3a2f;        /* dark brown text */
+  padding:18px;
+  line-height:1.7;
+}
+
+/* Question Card */
+.card{
+  background:#F4E3C8;
+  padding:16px;
+  margin-bottom:16px;
+  border-radius:6px;
+  cursor:pointer;
+  border:1px solid #d8c7b0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Question */
+.card b{
+  color:#3E3327;
+  font-size:18px;
+  font-weight:600;
+}
+
+/* Answer */
+.ans{
+  display:none;
+  margin-top:12px;
+  color:#4b3a2f;
+  font-size:16px;
+}
+
+/* Show answer */
+.card.show .ans{
+  display:block;
+}
+
+/* Topic */
+.ans small{
+  display:block;
+  margin-top:6px;
+  color:#6b5647;
+  font-style:italic;
+}
+
+/* Buttons */
+button{
+  margin-top:10px;
+  background:#e8d6bd;
+  color:#3b2a20;
+  border:1px solid #c8b49a;
+  padding:6px 10px;
+  border-radius:4px;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+button:hover{
+  background:#ddc8aa;
+}
+
+/* Done button */
+button.done{
+  background:#cde0c6;
+  border-color:#7aa57a;
+  color:#2f5d2f;
+  cursor:default;
+}
+
+/* Headings */
+h2, h3{
+  color:#3b2a20;
+}
+
+/* Divider */
+hr{
+  border:none;
+  border-top:1px solid #d8c7b0;
+  margin:20px 0;
+}
+
+/* Saved + All Questions labels */
+.saved, .all-q{
+  color:#6b5647;
+}
+
+/* Bookmark highlight */
+.card.bookmarked{
+  border:2px solid #b08900;
+  background:#fff3c9;
+}
+
+/* Capitalise first letters */
+.card b,
+.ans{
+  text-transform: capitalize;
+}
+
+/* 3-dot menu */
+.menu-container{
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+
+.menu-btn{
+  font-size: 22px;
+  background: #e8d6bd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.menu{
+  display: none;
+  margin-top: 6px;
+  background: #f4e3c8;
+  border: 1px solid #c8b49a;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.menu button{
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.menu button:hover{
+  background:#ddc8aa;
+}
+
+
+/* Saved section: force Remove button to bottom */
+#savedSection .card{
+  display:flex;
+  flex-direction:column;
+}
+
+#savedSection button{
+  align-self:flex-start;   /* left aligned */
+  margin-top:12px;        /* space from question */
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-container">
+  <button class="menu-btn" onclick="toggleMenu()">+</button>
+  <div id="menu" class="menu">
+     <button onclick="goTop()">Go to Top</button>
+    <button onclick="goToBookmark()">Go to Bookmark</button>
+    <button onclick="loadOriginal()">Original Order</button>
+    <button onclick="loadSet1()">Random Set 1</button>
+    <button onclick="loadSet2()">Random Set 2</button>
+  </div>
+</div>
+
+<h2>ASSAM HISTORY PART 2</h2>
+
+<h3 class="saved">Saved (Weak) Questions</h3>
+<div id="savedSection"></div>
+
+<hr>
+
+
+
+<h3 class="all-q">All Questions</h3>
+<h3 id="qCount">Total Questions: 0</h3>
+
+
+<div id="allQuestions">
+
+
+
+
+<!-- PASTE EXCEL CONTENT BELOW -->
+
+
+
+
+
+
+
+<div class='card' data-id='2' onclick="this.classList.toggle('show')"><b>who became king after pramatta singha</b><div class='ans'>rajeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='3' onclick="this.classList.toggle('show')"><b>who is mohamala malladev gohain? Why he couldn’t became a king</b><div class='ans'>inelligible for kingship smallpox marks on face ac to norms estblished by sulikpha/lora roja<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='4' onclick="this.classList.toggle('show')"><b>basistha temple built by </b><div class='ans'>rajeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='5' onclick="this.classList.toggle('show')"><b>manikarneshwar built by ? Where</b><div class='ans'>rajeshwar singha, n. ghy<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='6' onclick="this.classList.toggle('show')"><b>navagraha temple built by </b><div class='ans'>rajeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='7' onclick="this.classList.toggle('show')"><b>negheriting built by  ? Where?</b><div class='ans'>rajeshwar singha, dergaon, golaghat<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='8' onclick="this.classList.toggle('show')"><b>siddheshwara built by ? Where</b><div class='ans'>rajeshwar singha, sualkuchi<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='9' onclick="this.classList.toggle('show')"><b>two doors at kedera shiva temple at hajo built by </b><div class='ans'>rajeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='10' onclick="this.classList.toggle('show')"><b>sil pukhuri built by </b><div class='ans'>rajeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='11' onclick="this.classList.toggle('show')"><b>karengghar built by? Where?</b><div class='ans'>rajeshwar singha, garhgaon<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='12' onclick="this.classList.toggle('show')"><b>tolatol ghar built by? Where?</b><div class='ans'>rajeshwar singha, rangpur<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='13' onclick="this.classList.toggle('show')"><b>where is dergaon</b><div class='ans'>golaghat<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='14' onclick="this.classList.toggle('show')"><b>rudreshwar temple built by</b><div class='ans'>Sunenphaa<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='15' onclick="this.classList.toggle('show')"><b>sukleshwar temple built by</b><div class='ans'>Sunenphaa<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='16' onclick="this.classList.toggle('show')"><b>singhaduwar built by</b><div class='ans'>Sunenphaa<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='17' onclick="this.classList.toggle('show')"><b>rangghar built by</b><div class='ans'>Sunenphaa<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='18' onclick="this.classList.toggle('show')"><b>duburi ali built  by</b><div class='ans'>rudra singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='19' onclick="this.classList.toggle('show')"><b>dirgheswari temple built by? Where</b><div class='ans'>shiva singha, n. ghy<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='20' onclick="this.classList.toggle('show')"><b>umananda temple built by?</b><div class='ans'>godapani<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='21' onclick="this.classList.toggle('show')"><b>cheuni ali built by</b><div class='ans'>jayadhwaj singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='22' onclick="this.classList.toggle('show')"><b>lotakota ron during the reign of</b><div class='ans'>rajeshwar singha (creepers war)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='23' onclick="this.classList.toggle('show')"><b>creepers war during the reign of</b><div class='ans'>rajeshwar singha (lotakota ron)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='24' onclick="this.classList.toggle('show')"><b>who was the maipuri king during rajeshwar singha?  Relation?</b><div class='ans'>jai singh | lotakata ron<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='25' onclick="this.classList.toggle('show')"><b>facts about lotakata ron</b><div class='ans'>burmese attacked manipur> jai singh king asked helped to british > british denied > then asked help to rajeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='26' onclick="this.classList.toggle('show')"><b>who is known as gandhela</b><div class='ans'>kirtichandra barbaruah<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='27' onclick="this.classList.toggle('show')"><b>who is kuranganayani</b><div class='ans'>manipuri king jai singh s daughter married to rajeshwar singha after lotakota ron<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='28' onclick="this.classList.toggle('show')"><b>who was the chief queen of rajeshwar singha</b><div class='ans'>kuranganayani<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='29' onclick="this.classList.toggle('show')"><b>keertichandra is related to which war </b><div class='ans'>lotakota ron (manipur) (rajeshwar singha)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='30' onclick="this.classList.toggle('show')"><b>charipheti buranji written by</b><div class='ans'>numali borgohain<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='31' onclick="this.classList.toggle('show')"><b>keertichandra baruah 3@</b><div class='ans'>gandhela | jalom bator | nokol ahom<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='32' onclick="this.classList.toggle('show')"><b>why chakripheti buranji burnt? Who burnt it</b><div class='ans'>chakripheti buranji by numali borgohain burnt by keertichandra borbaruah because he was mentioned there as jalom bator and nokol ahom<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='33' onclick="this.classList.toggle('show')"><b>king after rajeshwar singha</b><div class='ans'>sunyeopha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='34' onclick="this.classList.toggle('show')"><b>sunyeopha became king after</b><div class='ans'>rajeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='35' onclick="this.classList.toggle('show')"><b>who married kuranganayani after rajeshwar singha</b><div class='ans'>sunyeopha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='36' onclick="this.classList.toggle('show')"><b>who exiled rajeshwar singhas two son</b><div class='ans'>kirtichandra barbaruah<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='37' onclick="this.classList.toggle('show')"><b>first moamoria rabellion when? Reign?</b><div class='ans'>1769 | sunyeopha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='38' onclick="this.classList.toggle('show')"><b>moamoriyas are also known as</b><div class='ans'>motaks<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='39' onclick="this.classList.toggle('show')"><b>during whose rule the root of moamoriya rebellion get birth</b><div class='ans'>during shiva singha when phuleshwari insulted motaks by smering blood on their forehead<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='40' onclick="this.classList.toggle('show')"><b>what are the incidents that started the moamoriya rebellion during lakshmi singhas reign</b><div class='ans'>raghav moran and nagor saikia visited ahom kingdom to pay tribute but theyre ears and nose were cut off and beat up badly<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='41' onclick="this.classList.toggle('show')"><b>rudrasagar tank built by</b><div class='ans'>sunyeopha aka- lakshmi singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='42' onclick="this.classList.toggle('show')"><b>bogi dol built by</b><div class='ans'>sunyeopha aka- lakshmi singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='43' onclick="this.classList.toggle('show')"><b>kacharighat dol built by</b><div class='ans'>sunyeopha aka- lakshmi singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='44' onclick="this.classList.toggle('show')"><b>pukhurit alohi boha bahor built by</b><div class='ans'>sunyeopha aka- lakshmi singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='45' onclick="this.classList.toggle('show')"><b>sunyeopha builts?</b><div class='ans'>rudrasagar tank | bogi dol | kacharighat dol | pukhurit alohi boha bahor<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='46' onclick="this.classList.toggle('show')"><b>king after lakshmi singha</b><div class='ans'>gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='47' onclick="this.classList.toggle('show')"><b>entry of british in ahom kingdom during the reign of</b><div class='ans'>gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='48' onclick="this.classList.toggle('show')"><b>2nd moamoriya rebellion when? Reign?</b><div class='ans'>1782 | gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='49' onclick="this.classList.toggle('show')"><b>who helped supressing the 2nd motak rebellion</b><div class='ans'>ghanashyam burhagohain<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='50' onclick="this.classList.toggle('show')"><b>ghanashyam burhagohain related to </b><div class='ans'>second moamoriya rebellion during gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='51' onclick="this.classList.toggle('show')"><b>3rd moamoriya rebellion when? Reign?</b><div class='ans'>1786 | gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='52' onclick="this.classList.toggle('show')"><b>reign of gaurinath singha duration</b><div class='ans'>1780 to 1794<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='53' onclick="this.classList.toggle('show')"><b>purnananda burhagohain is related to</b><div class='ans'>third moamoriya rebellion in 1786 | gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='54' onclick="this.classList.toggle('show')"><b>who is the son of ghanashyam burhagohain</b><div class='ans'>purnananda burhagohain<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='55' onclick="this.classList.toggle('show')"><b>first time during whose rule and by whom and why and when ahom contacted british </b><div class='ans'>during gaurinath singhas rule during the 3rd moamoriya rebellion in 1786 purnanada burhagohain on behalf of gaurinath asked british captain welsh for help<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='56' onclick="this.classList.toggle('show')"><b>what are barkandazes</b><div class='ans'>barkandazes bangal and jatt soldiers of british sent to assam during 3rd moamoriya rebellion to help gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='57' onclick="this.classList.toggle('show')"><b>last capital of ahom? Who built it</b><div class='ans'>jorhat | gaurinath singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='58' onclick="this.classList.toggle('show')"><b>who was the governer of british india during the 3rd moamoriya rebellion</b><div class='ans'>conowallis<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='59' onclick="this.classList.toggle('show')"><b>who asked captain welsh to leave assam</b><div class='ans'>john shores<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='60' onclick="this.classList.toggle('show')"><b>who is kinaram</b><div class='ans'>kamaleshwar singha @suklingpha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='61' onclick="this.classList.toggle('show')"><b>kamaleshwar singha aka</b><div class='ans'>suklingpha | kinaram<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='62' onclick="this.classList.toggle('show')"><b>kamaleshwar singha is ralted to whom</b><div class='ans'>great grandson of lechai (brother of lai or rudra singha)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='63' onclick="this.classList.toggle('show')"><b>which ahom ruler came to power when he was toddler? Who was the de facto ruler</b><div class='ans'>kamaleshwar singha @suklingpha | purnananda burhagohain<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='64' onclick="this.classList.toggle('show')"><b>moamoriyas and ahom signed peace treaty bw</b><div class='ans'>moamoriya chief sarbananda singha and kamaleshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='65' onclick="this.classList.toggle('show')"><b>which ahom ruler signed peace treaty with moamoriya</b><div class='ans'>kinaram<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='66' onclick="this.classList.toggle('show')"><b>dondouwa droh @? During the reign of</b><div class='ans'>aka rebellion of haradutta | kamaleshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='67' onclick="this.classList.toggle('show')"><b>who used the term dhekeri for lower assam ? Reign</b><div class='ans'>badan chandra barphukan | kamaleshwar singha (dondouwa droh)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='68' onclick="this.classList.toggle('show')"><b>reson of donduwa droh</b><div class='ans'>badan chandra barphukan mocked lower assam people as dhekeri<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='69' onclick="this.classList.toggle('show')"><b>who are the two brothers that rebel against ahom during dondouwa droh</b><div class='ans'>haradutta and biradutta with some barkandazes soldiers<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='70' onclick="this.classList.toggle('show')"><b>who replaced badan chandra and why</b><div class='ans'>badna was replaced by kolia bhomora | kamaleshwar and purnanada asked badan to supress donduwa droh but badan failed that’s why<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='71' onclick="this.classList.toggle('show')"><b>who was the barphukan during kamaleshwar singha</b><div class='ans'>1st- badan chandra barphukan later he was replaced by kolia bhomora<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='72' onclick="this.classList.toggle('show')"><b>kolia bhomora was barphukan during whose reign</b><div class='ans'>kamaleshwar singha <br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='73' onclick="this.classList.toggle('show')"><b>haradutta was killed by</b><div class='ans'> kolia bhomora<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='74' onclick="this.classList.toggle('show')"><b>who is pratap ballabh? Title given by? Why ?</b><div class='ans'>kolia bhomora title given by kamaleshwar singha | because he supressed donduwa droh and killed haradutta and biradutta<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='75' onclick="this.classList.toggle('show')"><b>kolia bhomora is also known as</b><div class='ans'>pratap ballabh<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='76' onclick="this.classList.toggle('show')"><b>who presented the idea of making assam as feudatory state under british and to which ahom ruler</b><div class='ans'>pratap ballabh @kolia bhomora | kamaleshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='77' onclick="this.classList.toggle('show')"><b>operation against moran sinphou and bharati raja during the reign of</b><div class='ans'>kamaleshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='78' onclick="this.classList.toggle('show')"><b>who became the barphukan after the death of pratap ballabh</b><div class='ans'>1st: badan | 2nd: kolia bhomora @pratap ballabh | 3rd: badan<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='79' onclick="this.classList.toggle('show')"><b>who is pijou gabhoru</b><div class='ans'>daughter of badanchandra borphukan<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='80' onclick="this.classList.toggle('show')"><b>during whose ruler severe epidemic broke out in jorhat</b><div class='ans'>kamleshwar singha | he himself also died form small pox at the age of 16<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='81' onclick="this.classList.toggle('show')"><b>at what age and how kamaleshwar singha died</b><div class='ans'>at the age of 16 he died form small pox<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='82' onclick="this.classList.toggle('show')"><b>tungkhungia burnaji authored by</b><div class='ans'>srinath duwarah<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='83' onclick="this.classList.toggle('show')"><b>chakripheti buranji authored by</b><div class='ans'>numali borgohain<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='84' onclick="this.classList.toggle('show')"><b>the history of assam can be divided in __ parth? What are them</b><div class='ans'>four parts | ancient era: start 4th ce | medival era : 1206 bakhtiya kalji attack | 3rd : traty of yandaboo 1826 | 4th : after 1947<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='85' onclick="this.classList.toggle('show')"><b>who became king after kamaleshwar singha</b><div class='ans'>chandrakanta singha (1810 to 1818)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='86' onclick="this.classList.toggle('show')"><b>chandrakanta singha @</b><div class='ans'>sudingpha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='87' onclick="this.classList.toggle('show')"><b>who is sudingpha</b><div class='ans'>chandrakanta singha king after kamaleshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='88' onclick="this.classList.toggle('show')"><b>who is responsible for inviting burmese into assam</b><div class='ans'>badan chandra barphukan<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='89' onclick="this.classList.toggle('show')"><b>badan chandra barphukan was the sole representiive of ___</b><div class='ans'>lower assam<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='90' onclick="this.classList.toggle('show')"><b>first burmese invasion when? Reign? Helped by?</b><div class='ans'>march 1817 | chandrakanta singha @sudingpha | badan chandra barphukan<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='91' onclick="this.classList.toggle('show')"><b>daughter in law of purnanada</b><div class='ans'>pijou gabhoru daughte of badan<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='92' onclick="this.classList.toggle('show')"><b>for what reason purnananda want to remove badan chandra</b><div class='ans'>badan's three son let loose an intoxicated elephant to kill men and destroy thing it was fun for them when purnanada knew he wanted to remove badan but he flew to calcutta<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='93' onclick="this.classList.toggle('show')"><b>badan in fear of purnanada fled where</b><div class='ans'>calcutta<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='94' onclick="this.classList.toggle('show')"><b>who was the burmese and ahom king during first burmese invasion</b><div class='ans'>march 1817 burmese : badawpaya | ahom : chandrakanta singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='95' onclick="this.classList.toggle('show')"><b>how many burmese soldiers came during the first burmese invasion of ahom</b><div class='ans'>8000<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='96' onclick="this.classList.toggle('show')"><b>who convinced the burmese king to do first burmese invasion</b><div class='ans'>badan chandra<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='97' onclick="this.classList.toggle('show')"><b>purnananda burhagoahain died when? Who became burhagohain after him</b><div class='ans'>died in 1st burmese invasion march 1817 | his son ruchinath became the burhagohain after purnanada<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='98' onclick="this.classList.toggle('show')"><b>who is mantri phukan</b><div class='ans'>after the 1st burmese invsion badan installed again as barphukan while chandra kanta was there as nominal king badan became the de facto ruler with the title mantri phukan<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='99' onclick="this.classList.toggle('show')"><b>who is hemo aideo</b><div class='ans'>an assamese maiden during the first burmese invasion in march 1817 hema aideo was gifted to badowpaya <br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='100' onclick="this.classList.toggle('show')"><b>2nd burmese invasion when? Reign?</b><div class='ans'>1819 | purandar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='101' onclick="this.classList.toggle('show')"><b>who became king after chandrakanta singha</b><div class='ans'>purandar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='102' onclick="this.classList.toggle('show')"><b>badan chandra barphukan was killed by</b><div class='ans'>rup singh subedar<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='103' onclick="this.classList.toggle('show')"><b>purandar singha father name</b><div class='ans'>brajanath<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='104' onclick="this.classList.toggle('show')"><b>how did purandar singha made king</b><div class='ans'>ruchinath decleard brajanath as the king who was the great grand son of rajeshwar singha but brajanath was found inelligible because of mutilation so his son purandar singha was made king<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='105' onclick="this.classList.toggle('show')"><b>2nd burmese invasion why? Who was the burmese general</b><div class='ans'>to avenge the murder of badan chandra | ala mingi<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='106' onclick="this.classList.toggle('show')"><b>who is ala mingi</b><div class='ans'>ala mingi was the burmese general during the 2nd burmese invasion<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='107' onclick="this.classList.toggle('show')"><b>which assamese helped burmese during 2nd burmese invasion in 1819</b><div class='ans'>patalang or momai barua<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='108' onclick="this.classList.toggle('show')"><b>who is patalang ? @</b><div class='ans'>during the 2nd burmese invasion by ala mingi. An assamese pata lang @ momai baruah helped burmese<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='109' onclick="this.classList.toggle('show')"><b>purandar singha was made king by whom</b><div class='ans'>ruchinath burhagohain<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='110' onclick="this.classList.toggle('show')"><b>who became the bacame the re king and barbarua after 2nd burmese invasion</b><div class='ans'>during 2nd burmese invasion in 1819 purandar singh was the king after burmese won chandrakanta made king and patalang or mamai baruah made as barbarua<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='111' onclick="this.classList.toggle('show')"><b>after 2nd burmese invasion ala mingi left assam by keeping authority of the country in hands of ________</b><div class='ans'>mingimaha tilwa<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='112' onclick="this.classList.toggle('show')"><b>who is mingimaha tilwa</b><div class='ans'>after 2nd burmese invasion ala mingi left assam by keeping authority of the country in hands of mingimaha tilwa<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='113' onclick="this.classList.toggle('show')"><b>third burmese invasion when? reign? Why? Burmese king?</b><div class='ans'>1821 >chandrakanta singha + patalang barbaruah | after mingimaha tilwa left patalang and chandrakanta started preparing for a war against burmese when king bagyidaw knew he sent mingi maha tilwa to assam in 1821 patal was killed<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='114' onclick="this.classList.toggle('show')"><b>third burmese invasion when? Both side rulers</b><div class='ans'>1821 | ahom chandrakanta singha vs bagyidaw<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='115' onclick="this.classList.toggle('show')"><b>who killed patal barbaruah</b><div class='ans'>mingimaha tilwa<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='116' onclick="this.classList.toggle('show')"><b>after the 3rd burmese invasion who replaced ______ as king</b><div class='ans'>chandrakanta singha was replaced by jogeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='117' onclick="this.classList.toggle('show')"><b>who is known as mane pata raja</b><div class='ans'>jogeshwar singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='118' onclick="this.classList.toggle('show')"><b>joshewar singha replaced who</b><div class='ans'>chandrakanta singha<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='119' onclick="this.classList.toggle('show')"><b>in british who made the non intervention policy</b><div class='ans'>lord amherst<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='120' onclick="this.classList.toggle('show')"><b>after the 3rd burmese invasion who appealed britih for help? Why they refused?</b><div class='ans'>purandar singha + chandrakanta singha | non interventon policy of lord amherst<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='121' onclick="this.classList.toggle('show')"><b>the battle of mahagarh when? Bw?</b><div class='ans'>1822 | chandrakanta singh as the chief of ahom forces vs mingimaha bandula as the general of burmese forces<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='122' onclick="this.classList.toggle('show')"><b>who won battle of mahagarh</b><div class='ans'>mingimaha bandula (burmese)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='123' onclick="this.classList.toggle('show')"><b>last battle bw ahom and burmese fought when? Where?</b><div class='ans'>1822 at assam chowki (hadira chowki or kandahar)<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='124' onclick="this.classList.toggle('show')"><b>which place is known as last frontier outpost of assam? Importance?</b><div class='ans'>assam chowki @hadira chowki @kandahar | the last battle bw ahom and burmese fought here<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='125' onclick="this.classList.toggle('show')"><b>___________ and ______ of assam under the control of british during 1800s</b><div class='ans'>goalpara and cachar<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='126' onclick="this.classList.toggle('show')"><b>first battle bw burmese and british when? Where?</b><div class='ans'>vikrampur cachar | on 17january 1824<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='127' onclick="this.classList.toggle('show')"><b>treaty of yandaboo signed bw? When? What was it?</b><div class='ans'>maha min hala (kingdom of ava/ burma) vs archibald campbell (british east india company) | 24 feb 1826 | burmese agreed to leave assam and the neighbouring states of cachar jaintiya and manipur and arakan<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='128' onclick="this.classList.toggle('show')"><b>what was the beginning of british regime in assam</b><div class='ans'>treaty of yandaboo in 24th feb 1826<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='129' onclick="this.classList.toggle('show')"><b>burmese king also known as</b><div class='ans'>kingdom of ava<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='130' onclick="this.classList.toggle('show')"><b>how many anglo-burmese treaties are there? Mention them</b><div class='ans'>3 | 1826,24feb: yandaboo treaty | 1852: 2nd treaty | 1885 : because of france influence in burma<br><small>Topic: AFTER PRATP SINGHA 1603</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='131' onclick="this.classList.toggle('show')"><b>chronology of foreign countries entry in india</b><div class='ans'>portugese>dutch>english>franch (PDEF)<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='132' onclick="this.classList.toggle('show')"><b>during yandaboo treaty signing who was the representative of burma and british</b><div class='ans'>burma :  maha min htin | british: archibald campbell<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='133' onclick="this.classList.toggle('show')"><b>during the signing of yandaboo treaty who was the king of burma? And who was the representative of burmese king who signed it with campbell</b><div class='ans'>king: sagaing min | representative: maha min htin<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='134' onclick="this.classList.toggle('show')"><b>who is the first british commisioner of assam after yandaboo treaty</b><div class='ans'>david scott<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='135' onclick="this.classList.toggle('show')"><b>which kingdom of assam british annexed first and when? Who was the kachari king during that</b><div class='ans'>kachari kingdom in 1828, govindachandra last kachari king <br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='136' onclick="this.classList.toggle('show')"><b>how kachari kingdom was annexed and when</b><div class='ans'>after the death of last kachari king govindachandra in 1828 british annexed kachari kingdom under the doctrin of lapse<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='137' onclick="this.classList.toggle('show')"><b>khasi kingdom went under british when</b><div class='ans'>in 1832 after khasi king surrender<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='138' onclick="this.classList.toggle('show')"><b>when was upper assam became british protectorate? Under which ahom king</b><div class='ans'>in 1833 purandar singha<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='139' onclick="this.classList.toggle('show')"><b>when was bristish formally annexed ahom kingdom</b><div class='ans'>1838 last ruler purandar singha<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='140' onclick="this.classList.toggle('show')"><b>when was matak @moamoriya annexed by british</b><div class='ans'>in 1839 (after ahom annexetiton in 1838)<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='141' onclick="this.classList.toggle('show')"><b>when was sadiya annexed by british</b><div class='ans'>in 1842<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='142' onclick="this.classList.toggle('show')"><b>anglo-bhutan war when</b><div class='ans'>in 1865<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='143' onclick="this.classList.toggle('show')"><b>who is tirat singh</b><div class='ans'>first khasi chief to declear war against the british<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='144' onclick="this.classList.toggle('show')"><b>first khasi chief to decleare war against british</b><div class='ans'>tirut singh<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='145' onclick="this.classList.toggle('show')"><b>who is tularam senapati</b><div class='ans'>ruler of north cachar before british annexation <br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='146' onclick="this.classList.toggle('show')"><b>who was the first to revolt against britsh in assam? When</b><div class='ans'>gomadhar konwar in 1828<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='147' onclick="this.classList.toggle('show')"><b>who is gomadhar knowar</b><div class='ans'>ahom prince revolted against british in 1828 tried to re established ahom rule again<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='148' onclick="this.classList.toggle('show')"><b>who helped gomadhar knowar</b><div class='ans'>dhananjay burhagohain<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='149' onclick="this.classList.toggle('show')"><b>piyali phukan along with _ senteced to death when</b><div class='ans'>piyali phukan along with dhananjoy burhagohain and jiuram medhi sentenced to death in 1830<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='150' onclick="this.classList.toggle('show')"><b>who are the revolters who were sentenced to death in 1830 by british</b><div class='ans'>piyali phukan along with dhananjoy burhagohain and jiuram medhi sentenced to death in 1830<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='151' onclick="this.classList.toggle('show')"><b>when for the first time bengali became the official language of assam</b><div class='ans'>in 1836<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='152' onclick="this.classList.toggle('show')"><b>assam was made part of Bengal under the Bengal Presidency when?</b><div class='ans'>bw 1826 to 1832<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='153' onclick="this.classList.toggle('show')"><b>when assam was separated from begal along with?</b><div class='ans'>On 6 February 1874, Assam, including Sylhet, was severed from Bengal to form the Assam Chief-Commissionership, also known as the 'North-East Frontier'.<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='154' onclick="this.classList.toggle('show')"><b>when was assam made a chief commisonership</b><div class='ans'>On 6 February 1874, Assam, including Sylhet, was severed from Bengal to form the Assam Chief-Commissionership, also known as the 'North-East Frontier'.<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='155' onclick="this.classList.toggle('show')"><b>first capital of assam under british? When?</b><div class='ans'>shillong in 1874<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='156' onclick="this.classList.toggle('show')"><b>when was the capital of assam became dispur from shillong</b><div class='ans'>in 1973<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='157' onclick="this.classList.toggle('show')"><b>bengali was the official language from to</b><div class='ans'>1836 to 1873<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='158' onclick="this.classList.toggle('show')"><b>first assamese magazine ___ published in ____</b><div class='ans'>orunodoi published in 1846<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='159' onclick="this.classList.toggle('show')"><b>assamese as state official language when after independence</b><div class='ans'>1960<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='160' onclick="this.classList.toggle('show')"><b>cachar was place under __________</b><div class='ans'>the commisonereate of decca<br><small>Topic: british assam</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+
+
+
+
+
+
+
+
+
+
+<!-- PASTE EXCEL CONTENT above -->
+
+<script>
+window.onload = function () {
+
+function updateQuestionCount() {
+  let count = document.querySelectorAll("#allQuestions .card").length;
+  document.getElementById("qCount").innerText =
+    "Total Questions: " + count;
+}
+
+
+  /* ================== STORAGE KEYS ================== */
+  const KEY_SET1 = "order_set1";
+  const KEY_SET2 = "order_set2";
+  const KEY_ACTIVE_SET = "activeSet"; // original | set1 | set2
+  
+const PAGE = location.pathname;
+const KEY_SAVED = "savedQ_" + PAGE;
+
+
+  const KEY_BOOKMARK = "bookmarkQ";
+
+  /* ================== LOAD STORED DATA ================== */
+  let saved = JSON.parse(localStorage.getItem(KEY_SAVED)) || [];
+  let bookmarkedId = localStorage.getItem(KEY_BOOKMARK);
+  let activeSet = localStorage.getItem(KEY_ACTIVE_SET) || "original";
+
+ let container = document.getElementById("allQuestions");
+ let cards = Array.from(document.querySelectorAll(".card"));
+
+// 🔥 MOVE ALL EXCEL-GENERATED CARDS INTO THE CONTAINER ONCE
+cards.forEach(card => container.appendChild(card));
+
+
+  /* ================== ORIGINAL ORDER ================== */
+  const originalOrder = cards.map(c => c.dataset.id);
+
+  /* ================== RANDOM ORDER GENERATOR ================== */
+  function generateRandomOrder(base) {
+    let arr = [...base];
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  /* ================== INITIALISE FIXED RANDOM SETS ================== */
+  if (!localStorage.getItem(KEY_SET1) || !localStorage.getItem(KEY_SET2)) {
+
+  let set1 = generateRandomOrder(originalOrder);
+  let set2 = generateRandomOrder(originalOrder);
+
+  // force difference
+  while (JSON.stringify(set1) === JSON.stringify(set2)) {
+    set2 = generateRandomOrder(originalOrder);
+  }
+
+  localStorage.setItem(KEY_SET1, JSON.stringify(set1));
+  localStorage.setItem(KEY_SET2, JSON.stringify(set2));
+}
+
+
+
+  /* ================== APPLY ORDER ================== */
+function applyOrder(order) {
+  order.forEach(id => {
+    let el = cards.find(c => c.dataset.id === id);
+    if (el) container.appendChild(el); // just move, don't delete
+  });
+}
+
+
+
+  /* ================== RESTORE SAVED STATE ================== */
+  function restoreSavedState() {
+    saved.forEach(id => {
+      let card = document.querySelector(`.card[data-id='${id}']`);
+      if (card) markDone(card);
+    });
+  }
+
+  /* ================== APPLY LAST ACTIVE SET ================== */
+  if (activeSet === "set1") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  } else if (activeSet === "set2") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  } else {
+    applyOrder(originalOrder);
+  }
+
+  /* ================== SAVE QUESTION ================== */
+  window.saveQuestion = function (e, btn) {
+    e.stopPropagation();
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    if (!saved.includes(id)) {
+      saved.push(id);
+      localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+      markDone(card);
+      renderSaved();
+    updateQuestionCount();
+
+    }
+  };
+
+  /* ================== BOOKMARK QUESTION ================== */
+  window.bookmarkQuestion = function (e, btn) {
+    e.stopPropagation();
+
+    document.querySelectorAll(".card.bookmarked")
+      .forEach(c => c.classList.remove("bookmarked"));
+
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    localStorage.setItem(KEY_BOOKMARK, id);
+    card.classList.add("bookmarked");
+  };
+
+  /* ================== GO TO BOOKMARK ================== */
+  window.goToBookmark = function () {
+    let id = localStorage.getItem(KEY_BOOKMARK);
+    if (!id) return alert("No bookmark set");
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("bookmarked");
+    }
+  };
+
+  /* ================== SET SWITCHERS ================== */
+window.loadOriginal = function () {
+  applyOrder(originalOrder);
+  localStorage.setItem(KEY_ACTIVE_SET, "original");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+window.loadSet1 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set1");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+ window.loadSet2 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set2");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+
+  /* ================== HELPERS ================== */
+  function markDone(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Done";
+    btn.disabled = true;
+    btn.classList.add("done");
+  }
+
+  function resetButton(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Save";
+    btn.disabled = false;
+    btn.classList.remove("done");
+  }
+
+  function renderSaved() {
+    let box = document.getElementById("savedSection");
+    box.innerHTML = "";
+
+    saved.forEach(id => {
+      let original = document.querySelector(`.card[data-id='${id}']`);
+      if (!original) return;
+
+      let clone = original.cloneNode(true);
+      clone.querySelectorAll("button").forEach(b => b.remove());
+
+      let rm = document.createElement("button");
+      rm.textContent = "Remove";
+      rm.onclick = function (e) {
+        e.stopPropagation();
+        removeSaved(id);
+      };
+
+      clone.appendChild(rm);
+      box.appendChild(clone);
+    });
+  }
+
+  function removeSaved(id) {
+    saved = saved.filter(x => x !== id);
+    localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) resetButton(card);
+
+    renderSaved();
+  }
+
+  /* ================== RESTORE STATES ================== */
+  restoreSavedState();
+
+  if (bookmarkedId) {
+    let card = document.querySelector(`.card[data-id='${bookmarkedId}']`);
+    if (card) card.classList.add("bookmarked");
+  }
+
+  renderSaved();
+
+};
+
+window.toggleMenu = function(){
+  let m = document.getElementById("menu");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
+};
+
+
+
+window.goTop = function(){
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+};
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

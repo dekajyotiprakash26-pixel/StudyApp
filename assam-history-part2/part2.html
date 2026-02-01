@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Q&A Notes</title>
+
+<style>
+
+/* ===== SOFT PAPER / GOVERNMENT PDF THEME ===== */
+
+body{
+  font-family: "Georgia", "Times New Roman", serif;
+  background:#F4E3C8;   /* paper beige */
+  color:#4b3a2f;        /* dark brown text */
+  padding:18px;
+  line-height:1.7;
+}
+
+/* Question Card */
+.card{
+  background:#F4E3C8;
+  padding:16px;
+  margin-bottom:16px;
+  border-radius:6px;
+  cursor:pointer;
+  border:1px solid #d8c7b0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Question */
+.card b{
+  color:#3E3327;
+  font-size:18px;
+  font-weight:600;
+}
+
+/* Answer */
+.ans{
+  display:none;
+  margin-top:12px;
+  color:#4b3a2f;
+  font-size:16px;
+}
+
+/* Show answer */
+.card.show .ans{
+  display:block;
+}
+
+/* Topic */
+.ans small{
+  display:block;
+  margin-top:6px;
+  color:#6b5647;
+  font-style:italic;
+}
+
+/* Buttons */
+button{
+  margin-top:10px;
+  background:#e8d6bd;
+  color:#3b2a20;
+  border:1px solid #c8b49a;
+  padding:6px 10px;
+  border-radius:4px;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+button:hover{
+  background:#ddc8aa;
+}
+
+/* Done button */
+button.done{
+  background:#cde0c6;
+  border-color:#7aa57a;
+  color:#2f5d2f;
+  cursor:default;
+}
+
+/* Headings */
+h2, h3{
+  color:#3b2a20;
+}
+
+/* Divider */
+hr{
+  border:none;
+  border-top:1px solid #d8c7b0;
+  margin:20px 0;
+}
+
+/* Saved + All Questions labels */
+.saved, .all-q{
+  color:#6b5647;
+}
+
+/* Bookmark highlight */
+.card.bookmarked{
+  border:2px solid #b08900;
+  background:#fff3c9;
+}
+
+/* Capitalise first letters */
+.card b,
+.ans{
+  text-transform: capitalize;
+}
+
+/* 3-dot menu */
+.menu-container{
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+
+.menu-btn{
+  font-size: 22px;
+  background: #e8d6bd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.menu{
+  display: none;
+  margin-top: 6px;
+  background: #f4e3c8;
+  border: 1px solid #c8b49a;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.menu button{
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.menu button:hover{
+  background:#ddc8aa;
+}
+
+
+/* Saved section: force Remove button to bottom */
+#savedSection .card{
+  display:flex;
+  flex-direction:column;
+}
+
+#savedSection button{
+  align-self:flex-start;   /* left aligned */
+  margin-top:12px;        /* space from question */
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-container">
+  <button class="menu-btn" onclick="toggleMenu()">+</button>
+  <div id="menu" class="menu">
+     <button onclick="goTop()">Go to Top</button>
+    <button onclick="goToBookmark()">Go to Bookmark</button>
+    <button onclick="loadOriginal()">Original Order</button>
+    <button onclick="loadSet1()">Random Set 1</button>
+    <button onclick="loadSet2()">Random Set 2</button>
+  </div>
+</div>
+
+<h2>ASSAM HISTORY PART 2</h2>
+
+<h3 class="saved">Saved (Weak) Questions</h3>
+<div id="savedSection"></div>
+
+<hr>
+
+
+
+<h3 class="all-q">All Questions</h3>
+<h3 id="qCount">Total Questions: 0</h3>
+
+
+<div id="allQuestions">
+
+
+
+
+<!-- PASTE EXCEL CONTENT BELOW -->
+
+
+
+
+
+
+
+
+<div class='card' data-id='2' onclick="this.classList.toggle('show')"><b>tea was discovered in assam when? By whom?</b><div class='ans'>1823 | by robert bruce<br><small>Topic: PAGE 13 TO 40 | Assam History Part 2</small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='3' onclick="this.classList.toggle('show')"><b>first tea garden in assam where? When? By whom?</b><div class='ans'>chabua, dibrugarh | 1837 | by maniram dewan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='4' onclick="this.classList.toggle('show')"><b>where is chabua </b><div class='ans'>dibrugarh<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='5' onclick="this.classList.toggle('show')"><b>first tea planter of assam</b><div class='ans'>maniram dewan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='6' onclick="this.classList.toggle('show')"><b>assam tea company established when? Commercial production started when?</b><div class='ans'>1839 | 1840<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='7' onclick="this.classList.toggle('show')"><b>sepoy mutiny in india when</b><div class='ans'>1857<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='8' onclick="this.classList.toggle('show')"><b>1857 revolt in assam led by </b><div class='ans'>maniram dewan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='9' onclick="this.classList.toggle('show')"><b>what are the names of british military regiments posted in assam during 1857</b><div class='ans'>assam light infantry in dibrugarh | assam light infantry in guwahati<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='10' onclick="this.classList.toggle('show')"><b>where is chittagong</b><div class='ans'>bangladesh<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='11' onclick="this.classList.toggle('show')"><b>who is kandarpeshwar singha</b><div class='ans'>grandson of purandar singha, maniram wanted him to reinstate him as king in 1857 but failed after that maniram was hanged and since kandarpeshawr was minor he is prohibited to go to jorhat and also gave him a pension of 500rs<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='12' onclick="this.classList.toggle('show')"><b>during 1857 revolt maniram dewan consipired with whom to over throw british</b><div class='ans'>madhu malik of bengal | piyali baruah | kandarpeshwar singha<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='13' onclick="this.classList.toggle('show')"><b>maniram dewan hanged when? Alongwith?</b><div class='ans'>26 feb, 1858 | piyali baruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='14' onclick="this.classList.toggle('show')"><b>who is piyali baruah</b><div class='ans'>in  26 feb 1858, both maniram and piyali baruah were hanged for consipiring against the british<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='15' onclick="this.classList.toggle('show')"><b>maniram met whom at bengal</b><div class='ans'>maniram dewan met madhumalik a bengali muktiyar together they consipired against the british | piyali baruah and kandarpeshwar singha was also in their team<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='16' onclick="this.classList.toggle('show')"><b>first peasent's uprising in assam against british called? When? Where?</b><div class='ans'>phulaguri dhawa | october 1861 |nagaon<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='17' onclick="this.classList.toggle('show')"><b>phulaguri is a village situated where</b><div class='ans'>nagaon<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='18' onclick="this.classList.toggle('show')"><b>phulaguri dhawa uprising reasons</b><div class='ans'>tamul paan (betel-nut) tax (main) | tax on silkworm cultivation | ban of opium cultivation<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='19' onclick="this.classList.toggle('show')"><b>british officer lt gb singer who?</b><div class='ans'>assistant commisioner during phulaguri uprising in 1861 he was killed and thrown to kolong river by revolters<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='20' onclick="this.classList.toggle('show')"><b>who got killed as a result of phulaguri uprising</b><div class='ans'>assistant commisioner GB Singer<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='21' onclick="this.classList.toggle('show')"><b>2nd revolt after phulaguri what? When? Reason?</b><div class='ans'>rangia revolt in 24 Dec,1893 | increase in land revenue<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='22' onclick="this.classList.toggle('show')"><b>rangia revolt when? Why?</b><div class='ans'>rangia revolt in 24 Dec,1893 | increase in land revenue<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='23' onclick="this.classList.toggle('show')"><b>after rangia revolt what revolt took place & when ?</b><div class='ans'>lachima revolt in 21 jan,1894<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='24' onclick="this.classList.toggle('show')"><b>where is lachima village situated</b><div class='ans'>sarthebari, barpeta<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='25' onclick="this.classList.toggle('show')"><b>lachima revolt when & why</b><div class='ans'>21 jan,1894 | increase in land tax<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='26' onclick="this.classList.toggle('show')"><b>what uprising after rangia revolt & when?</b><div class='ans'>patharughat uprising 28jan, 1894<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='27' onclick="this.classList.toggle('show')"><b>patharughat uprising when? Cause?</b><div class='ans'>28 jan, 1894 | increase in taxes<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='28' onclick="this.classList.toggle('show')"><b>patharughat where?</b><div class='ans'>darrang<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='29' onclick="this.classList.toggle('show')"><b>who are the dc and sp of darrang during patharughat uprising</b><div class='ans'>SP: sp barrington | DC: jd anderson<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='30' onclick="this.classList.toggle('show')"><b>who ordered to first people during patharughat</b><div class='ans'>sp of darrang barrington<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='31' onclick="this.classList.toggle('show')"><b>patharughat uprising aka</b><div class='ans'>jallianwala bagh uprising<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='32' onclick="this.classList.toggle('show')"><b>krishak swahid divas when? Why</b><div class='ans'>28 jan | patharughat uprising took palce in 28jan 1894 many people were shot by british<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='33' onclick="this.classList.toggle('show')"><b>timeline of all the uprisings in assam</b><div class='ans'>1857: manirams sepoy mutiny | 1861,october: phulaguri dhawa,nagaon | 1893,24 dec: rangia revolt | 1894,21 jan: lachima revolt barpeta | 1894,28 jan: patharughat uprising, darrang<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='34' onclick="this.classList.toggle('show')"><b>who is the first british commisioner of assam</b><div class='ans'>david scott<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='35' onclick="this.classList.toggle('show')"><b>first rebellion against british in assam when? By?</b><div class='ans'>1828 by gomadhar knowar<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='36' onclick="this.classList.toggle('show')"><b>lower assam completely under british when</b><div class='ans'>1828<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='37' onclick="this.classList.toggle('show')"><b>kachari kingdom annexed by british when? Last king</b><div class='ans'>1828 | govinda chandra<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='38' onclick="this.classList.toggle('show')"><b>piyali phukan hanged when</b><div class='ans'>26july, 1830<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='39' onclick="this.classList.toggle('show')"><b>khasi kingdom went to british when? How?</b><div class='ans'>in 1832 after khasi king surrendered to british<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='40' onclick="this.classList.toggle('show')"><b>dark age for assamese language started when? How?</b><div class='ans'>in 1836 | bengali became official language of assam upto 1873<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='41' onclick="this.classList.toggle('show')"><b>when was cachar place under commisionerate of decca</b><div class='ans'>1836<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='42' onclick="this.classList.toggle('show')"><b>when? Who? Where? First tea garden of assam was established</b><div class='ans'>1837 | maniram dewan | chabua, dibrugarh<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='43' onclick="this.classList.toggle('show')"><b>upper assam was annexed by british when</b><div class='ans'>1838 (10 years after the annexation of lower assam)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='44' onclick="this.classList.toggle('show')"><b>assam tea company established when? Commercial production started when?</b><div class='ans'>1839 | 1840<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='45' onclick="this.classList.toggle('show')"><b>who is the first tea planter of assam</b><div class='ans'>maniram dewan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='46' onclick="this.classList.toggle('show')"><b>matak kingdom annexed by british when</b><div class='ans'>1839<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='47' onclick="this.classList.toggle('show')"><b>sadiya region annexed by british when</b><div class='ans'>1840<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='48' onclick="this.classList.toggle('show')"><b>slavery was abolished by british in assam when</b><div class='ans'>1843<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='49' onclick="this.classList.toggle('show')"><b>first assamese magazine? when? Published from?</b><div class='ans'>orundoi first assamese periodical magazine published in 1846 | published from sivsagar<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='50' onclick="this.classList.toggle('show')"><b>sepoy mutiny in assam led by</b><div class='ans'>maniram dewan, piyali baruah, (kandarpeshwar singha)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='51' onclick="this.classList.toggle('show')"><b>kalita raja @</b><div class='ans'>maniram dewan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='52' onclick="this.classList.toggle('show')"><b>maniram dewan @</b><div class='ans'>kalita raja<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='53' onclick="this.classList.toggle('show')"><b>maniram and piyali baruah hanged when</b><div class='ans'>26 feb, 1858  <br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='54' onclick="this.classList.toggle('show')"><b>first oil well of assam dug where? When?</b><div class='ans'>digboi, tinsukia in 1866 | couldn’t find any oil<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='55' onclick="this.classList.toggle('show')"><b>first dictionary in assamese lang. published when? By?</b><div class='ans'>1867 | miles bronson<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='56' onclick="this.classList.toggle('show')"><b>when was assam separated from bengal presidency and became a chief commissioners province</b><div class='ans'>1874 and shillong made capital in the same year<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='57' onclick="this.classList.toggle('show')"><b>when was assam became chief commisioners province? Who became the first commisioner</b><div class='ans'>1874, rh kettings<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='58' onclick="this.classList.toggle('show')"><b>first political association of coloniel assam? Estd. When</b><div class='ans'>jorhat sarbajani sabha in 1884<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='59' onclick="this.classList.toggle('show')"><b>founder of jorhat sarbajanik sabha</b><div class='ans'>jagannath boroah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='60' onclick="this.classList.toggle('show')"><b>inc formed when</b><div class='ans'>1885 | 1884: jorhat sarbajanik sabha<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='61' onclick="this.classList.toggle('show')"><b>first assamese to join INC? when?</b><div class='ans'>nabin chandra bordoloi joined in 1886<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='62' onclick="this.classList.toggle('show')"><b>which is the predecessor of assam sahitya sabha</b><div class='ans'>axomiya bhaka unnati sadhini sabha in 1888<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='63' onclick="this.classList.toggle('show')"><b>axomiya bhaka unnati sadhini sabha formed when?</b><div class='ans'>1888<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='64' onclick="this.classList.toggle('show')"><b>who is the first secretary of axomiya bhaka unnati sadhini sabha</b><div class='ans'>shivaram sharma bordoloi<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='65' onclick="this.classList.toggle('show')"><b>jonaki magazine released when? Published from? First editor?</b><div class='ans'>1889 | published from calcutta | chandra kumar agarwala<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='66' onclick="this.classList.toggle('show')"><b>first editor of jonaki magazine</b><div class='ans'>chandra kumar agarwala<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='67' onclick="this.classList.toggle('show')"><b>when for the first time oil was discovered? Where?</b><div class='ans'>in 1889 at digboi<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='68' onclick="this.classList.toggle('show')"><b>what are the two revolts and their dates started in 1894</b><div class='ans'>21 jan: lachima revolt | 28 jan: patharughat revolt<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='69' onclick="this.classList.toggle('show')"><b>asias first oil refinery estd. Where? When?</b><div class='ans'>digboi, tinsukia in 1901<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='70' onclick="this.classList.toggle('show')"><b>assam association formed when?</b><div class='ans'>1903<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='71' onclick="this.classList.toggle('show')"><b>assam association's 1st secretary? 1st pres? 1st vice pres?</b><div class='ans'>secretary: manik chandra baruah | president: prabhat chandra baruah | vice president: jagannath baruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='72' onclick="this.classList.toggle('show')"><b>which former org. later became assam pradesh congress</b><div class='ans'>assam association in 1903<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='73' onclick="this.classList.toggle('show')"><b>first session of assam association held at? When?</b><div class='ans'>dibrugarh in 1905<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='74' onclick="this.classList.toggle('show')"><b>partition of bengal when? Viceroy?</b><div class='ans'>1905 | viceroy: lord curzon<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='75' onclick="this.classList.toggle('show')"><b>swadeshi movement in assam when? Led by whom?</b><div class='ans'>1905 | ambikagiri rai choudhury<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='76' onclick="this.classList.toggle('show')"><b>assam chatra sanmilani formed when? Where?</b><div class='ans'>25 december, 1916 | latashil, guwahati<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='77' onclick="this.classList.toggle('show')"><b>first session of assam chatra sanmilani where</b><div class='ans'>guwahati<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='78' onclick="this.classList.toggle('show')"><b>first president of assam chatra sanmilani</b><div class='ans'>lakshminath bezbaruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='79' onclick="this.classList.toggle('show')"><b>assam sahitya sabha formed when?</b><div class='ans'>1917 (1year after assam chatra sanmilani)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='80' onclick="this.classList.toggle('show')"><b>first president of assam sahitya sabha</b><div class='ans'>padmanath gohain baruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='81' onclick="this.classList.toggle('show')"><b>first secretary of assam sahitya sabha</b><div class='ans'>sarat chandra goswami<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='82' onclick="this.classList.toggle('show')"><b>first session of assam sahitya sabha held at?</b><div class='ans'>sivsagar (although hq at jorhat)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='83' onclick="this.classList.toggle('show')"><b>hq of assam sahitya sabha?</b><div class='ans'>jorhat (altough first session at sivsagar)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='84' onclick="this.classList.toggle('show')"><b>assam sahitya sabha is the successor of which org? estb. When?</b><div class='ans'>assam sahitya sabha is the successor of axomiya bhaxa unnati sadhini sabha of 1888<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='85' onclick="this.classList.toggle('show')"><b>dyarchy system intoduced in assam when? By which act? Abolished when?</b><div class='ans'>Dyarchy was introduced by Government of India Act, 1919. in 1921 | It applied only to provinces, not the centre. | It divided subjects into Reserved and Transferred. | It was abolished in 1935.<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='86' onclick="this.classList.toggle('show')"><b>nabin chandra bordoloi joined which session of INC? when?</b><div class='ans'>nabin chandra bordoloi first person form assam to join nagpur, maharashtra session of 1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='87' onclick="this.classList.toggle('show')"><b>first assamese to join the _________ INC session in ____</b><div class='ans'>nabin chandra bordoloi | nagpur maharshtra session in 1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='88' onclick="this.classList.toggle('show')"><b>first visit of gandhi in assam where? When?</b><div class='ans'>golakganj, dhurbri in 18 aug, 1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='89' onclick="this.classList.toggle('show')"><b>how many times gandhi visited assam mention years</b><div class='ans'>4 times | 1921, 1926, 1934, 1946<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='90' onclick="this.classList.toggle('show')"><b>when was Assam included in the province of Eastern Bengal and Assam.</b><div class='ans'>1905 to 1912 (1912 – After the annulment of the Partition of Bengal, Assam was re-established as a separate province.)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='91' onclick="this.classList.toggle('show')"><b>when did assam association merged with assam provincial congress</b><div class='ans'>1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='92' onclick="this.classList.toggle('show')"><b>first president of assam congress</b><div class='ans'>chiblal upadhaya (selected) | kuladhar chaliha (elected)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='93' onclick="this.classList.toggle('show')"><b>which assamese took part in 1921 non co operation movement</b><div class='ans'>gopinath bordoloi<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='94' onclick="this.classList.toggle('show')"><b>when did gopinath bordoloi arrasted and why?</b><div class='ans'>1922 for taking part in 1921 NCM<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='95' onclick="this.classList.toggle('show')"><b>swaraj party formed when india vs assam? Formed by (india)? Formed by (in assam)</b><div class='ans'>1 jan 1923 india: CR Das (chitraranjan das) & motilal nehru | 25 jul 1923 assam: tarun ram phukan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='96' onclick="this.classList.toggle('show')"><b>who formed the swaraj party in assam and when</b><div class='ans'>tarun ram phukan in 25july 1923<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='97' onclick="this.classList.toggle('show')"><b>only member from assam in drafting committee of constituent assembly</b><div class='ans'>sir sadulla<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='98' onclick="this.classList.toggle('show')"><b>what are the only two political parties of assam before indep.</b><div class='ans'>assam pradesh congress & assam valley party<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='99' onclick="this.classList.toggle('show')"><b>first pm of assam before independence? When? Which party? (cm is called pm before indep.)</b><div class='ans'>sir sadulla | assam valley party + assam pradesh congress | formed in 1937<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='100' onclick="this.classList.toggle('show')"><b>sir sadulla ministy in assam formed in</b><div class='ans'>1 april,1937<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='101' onclick="this.classList.toggle('show')"><b>first cm of assam? Governer? (after independence)</b><div class='ans'>gopinath bordoloi | andrew clow + salah akbar hydari<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='102' onclick="this.classList.toggle('show')"><b>difference bw sir sadulla vs salah akbar hydari</b><div class='ans'>sir sadulla: only assamese member of drafting committee + first pm of assam befpre indep.) | salah akbar hydari: first governer of assam after independence<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='103' onclick="this.classList.toggle('show')"><b>when for the first time assam hosted INC session? Venue?</b><div class='ans'>1926 | pandu session<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='104' onclick="this.classList.toggle('show')"><b>inc pandu session when</b><div class='ans'>1926<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='105' onclick="this.classList.toggle('show')"><b>all assam pradeshik mahila samiti formed by? When?</b><div class='ans'>chandraprabha saikia | 1926<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='106' onclick="this.classList.toggle('show')"><b>o mur apunar desh officially accepted as state song when</b><div class='ans'> 1927 tezpur session of assam chatra sanmilan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='107' onclick="this.classList.toggle('show')"><b>dandi march when? First assamese to join</b><div class='ans'>1930 | lildhar baruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='108' onclick="this.classList.toggle('show')"><b>first round table conference when? Where? First assamese to join?</b><div class='ans'>1930 | london | chandradhar baruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='109' onclick="this.classList.toggle('show')"><b>liladhar baruah vs chandradhar baruah</b><div class='ans'>liladhar baruah: first assamese to join dandi march | chandradhar baruah: first assamese to join round table conference in london<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='110' onclick="this.classList.toggle('show')"><b>all assam ryot sabha formed by? When?</b><div class='ans'>nabin chandra bordoloi | 1933<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='111' onclick="this.classList.toggle('show')"><b>provincial self autonomy introduced in assam when? Based on which act?</b><div class='ans'>1935 | GOI act 1935<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='112' onclick="this.classList.toggle('show')"><b>sir sadulla ministy in assam formed in</b><div class='ans'>1937<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='113' onclick="this.classList.toggle('show')"><b>APSC formed in</b><div class='ans'>1937<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='114' onclick="this.classList.toggle('show')"><b>tribal league in assam formed in</b><div class='ans'>1937<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='115' onclick="this.classList.toggle('show')"><b>quit india movement when? Assamese martyrs?</b><div class='ans'>1942 | kanaklata baruah, mukundaram kakati, bhogeshwari phukan<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='116' onclick="this.classList.toggle('show')"><b>kushal knowar hanged when? Why? Which jail?</b><div class='ans'>in 15 june,1943 kushal knowar hanged in jorhat jail in charge of conspiracy and derailment of train near sarupathar in golaghat<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='117' onclick="this.classList.toggle('show')"><b>when was sylhet transferred to east pakistan</b><div class='ans'>in 1947<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='118' onclick="this.classList.toggle('show')"><b>founder of mrityu bahini and shanti bahini</b><div class='ans'>omeo kumar das and pushpalata das<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='119' onclick="this.classList.toggle('show')"><b>founder of mrityu bahini </b><div class='ans'>omeo kumar das and pushpalata das<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='120' onclick="this.classList.toggle('show')"><b>founder of shanti bahini</b><div class='ans'>omeo kumar das and pushpalata das<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='121' onclick="this.classList.toggle('show')"><b>jorhat sarbajani sabha formed when</b><div class='ans'>1884<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='122' onclick="this.classList.toggle('show')"><b>jorhat sarbajani sabha founder & secretary</b><div class='ans'>jagganath baruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='123' onclick="this.classList.toggle('show')"><b>jorhat sarbajani sabha president</b><div class='ans'>raja naranaryan singha<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='124' onclick="this.classList.toggle('show')"><b>jorhat sarbhajanik sabha was in favour of bengal partition or not</b><div class='ans'>it opposed the bengal partition<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='125' onclick="this.classList.toggle('show')"><b>ahom sabha formed when</b><div class='ans'>1893<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='126' onclick="this.classList.toggle('show')"><b>ahom sabha first session where</b><div class='ans'>sivsagar  <br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='127' onclick="this.classList.toggle('show')"><b>ahom sabha secretary</b><div class='ans'>padmanath gohain baruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='128' onclick="this.classList.toggle('show')"><b>rename of ahom sabha</b><div class='ans'>in 1910 it became a political organisation and renamed as ahom association<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='129' onclick="this.classList.toggle('show')"><b>when did ahom sabha became a political org</b><div class='ans'>in 1910 it became a political organisation and renamed as ahom association<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='130' onclick="this.classList.toggle('show')"><b>assam association formed when?</b><div class='ans'>1903<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='131' onclick="this.classList.toggle('show')"><b>assam association first session where? When?</b><div class='ans'>dibrugarh in 1905<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='132' onclick="this.classList.toggle('show')"><b>which organisation made demand for appointment of assamese teacher in cotton univ.</b><div class='ans'>assam association  <br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='133' onclick="this.classList.toggle('show')"><b>assam association was in favour of bengal partition or not</b><div class='ans'>opposed it<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='134' onclick="this.classList.toggle('show')"><b>when did assam association merged with assam provincial congress</b><div class='ans'>in 1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='135' onclick="this.classList.toggle('show')"><b>assam chatra sanmilani @</b><div class='ans'>assam student conference<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='136' onclick="this.classList.toggle('show')"><b>assam student conference formed in </b><div class='ans'>25 december, 1916 | latashil, guwahati<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='137' onclick="this.classList.toggle('show')"><b>first student union of assam</b><div class='ans'>assam student conference @assam chatra sanmilani<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='138' onclick="this.classList.toggle('show')"><b>founder of axom chatra sanmilani</b><div class='ans'>lakshminath bezbaruah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='139' onclick="this.classList.toggle('show')"><b>objective of assam chatra sanmilan</b><div class='ans'>to promote assamese literature, language and culture<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='140' onclick="this.classList.toggle('show')"><b>first session of assam chatra sanmilan where</b><div class='ans'>guwahati<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='141' onclick="this.classList.toggle('show')"><b>o mur apunar desh accepted as state song when and where? After independece when?</b><div class='ans'>1927 tezpur session of axom chatra sanmilani | 2013<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='142' onclick="this.classList.toggle('show')"><b>o mur apunar desh accepted as state song by assam gov when</b><div class='ans'>2013<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='143' onclick="this.classList.toggle('show')"><b>first president, first secretary of assam sahitya sabha</b><div class='ans'>prs: padmanath gohain boruah | sec: sarat chandra goswami<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='144' onclick="this.classList.toggle('show')"><b>first editor in chief of assam sahitya sabha</b><div class='ans'>chandradhar baruah (1st RTC)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='145' onclick="this.classList.toggle('show')"><b>first conference of assam sahitya sabha where and when</b><div class='ans'>sivsagar in 1917 (hq: jorhat)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='146' onclick="this.classList.toggle('show')"><b>hq of assam sahitya sabha?</b><div class='ans'>jorhat<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='147' onclick="this.classList.toggle('show')"><b>when was bhupen hazarika elected as pres of assam sahitya sabha</b><div class='ans'>1993<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='148' onclick="this.classList.toggle('show')"><b>first female president of assam sahitya sabha? When?</b><div class='ans'>nalinibala devi in 1953<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='149' onclick="this.classList.toggle('show')"><b>present president of assam sahitya sabha as of 2026</b><div class='ans'>basanta kumar goswami<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='150' onclick="this.classList.toggle('show')"><b>nirmal prabha bordoloi was the president of assam sahitya sabha when</b><div class='ans'>1991 (lyricist of : mure dusokule sowa ghone ghone pai sa janu mor mon)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='151' onclick="this.classList.toggle('show')"><b>who is known as assam kesari? Related to which movement?</b><div class='ans'>ambikagiri rai choudhury | 1905 swadesi movement in assam led by him<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='152' onclick="this.classList.toggle('show')"><b>ambikagiri rai choudhury @2</b><div class='ans'>assam kesari | the lion of assam<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='153' onclick="this.classList.toggle('show')"><b>who formed the sangrakshini sabha? When? Why?</b><div class='ans'>ambikagiri rai choudhury in 1926 to promote and preserve the rights of assamese people<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='154' onclick="this.classList.toggle('show')"><b>aji bondo ki sandere was composed by? Significance?</b><div class='ans'>ambikagiri rai choudhury | opening song of pandu INC session in 1926<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='155' onclick="this.classList.toggle('show')"><b>who was the first commisioner vs first chief commisioner vs chief commisioner during bengal partition of assam</b><div class='ans'>1st commisioner: david scott | 1st chief commisioner: RH keating | chief commisioner during 1905: jb fuller<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='156' onclick="this.classList.toggle('show')"><b>_____ marked the dawn of romanticism in assam</b><div class='ans'>jonaki 1889<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='157' onclick="this.classList.toggle('show')"><b>which are the two most profound artists of jonaki era</b><div class='ans'>lakshminath bezbaruah and chandra kumar agarwala<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='158' onclick="this.classList.toggle('show')"><b>AISF full form? Formed in?</b><div class='ans'>all indian students federeation | 1936<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='159' onclick="this.classList.toggle('show')"><b>ganga prasad memorial hall where?</b><div class='ans'>lucknow, UP<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='160' onclick="this.classList.toggle('show')"><b>AISF foundation conference held at? Inaugurated by? Presided by?</b><div class='ans'>ganga prasad memorial, lucknow | inagurated by JL nehru | presided by MA jinnah<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='161' onclick="this.classList.toggle('show')"><b>first secretary of AISF</b><div class='ans'>prem narayan bhargava<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='162' onclick="this.classList.toggle('show')"><b>AISF and assam chatra sanmilani relation</b><div class='ans'>assam chatra sanmilani in 1939 met in jorhat wherein biswanath mukharjee the AISF joint scretary also perticipated<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='163' onclick="this.classList.toggle('show')"><b>during dyarchy (dual govt) in assam ministers of assam under this system were</b><div class='ans'>pramod chandra dutta | syed md adullah | bishnuram medhi<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='164' onclick="this.classList.toggle('show')"><b>APCC was formed in</b><div class='ans'>1921 after the merger of assam association<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='165' onclick="this.classList.toggle('show')"><b>first session of APCC when? Where? President?</b><div class='ans'>18 april 1921 | jorhat | chiblal upadhyay<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='166' onclick="this.classList.toggle('show')"><b>first president of APCC</b><div class='ans'>1st : chiblal upadhaya (selected) | kuladhar chaliha (elected)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='167' onclick="this.classList.toggle('show')"><b>who was the president of APCC for 9 years? Elected when?</b><div class='ans'>bishnu ram medhi | 1930<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='168' onclick="this.classList.toggle('show')"><b>bishnuram medhi became the president of APCC when and for how many years</b><div class='ans'>1930 for 9 years<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='169' onclick="this.classList.toggle('show')"><b>first AICC session in assam when? What no.? Where? Who was the president?</b><div class='ans'>1926 | 41st | pandu session | srinivas iyengar<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='170' onclick="this.classList.toggle('show')"><b>pandu seesion is the __st session of AICC when?</b><div class='ans'>41st | 1926<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='171' onclick="this.classList.toggle('show')"><b>who was the president during 41st AICC pandu session </b><div class='ans'>srinivas iyenger<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='172' onclick="this.classList.toggle('show')"><b>timeline of assam's political status during british</b><div class='ans'>1826-1874: part of bengal presidency | 1874-1905: chief commisioner's province | 1905-1912: part of eastern bengal and assam under lt governer | 1912-1921: re-established as separate chief commisioners province | 1921: elevated to a governer's province<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='173' onclick="this.classList.toggle('show')"><b>when was assam elevated to governers province</b><div class='ans'>1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='174' onclick="this.classList.toggle('show')"><b>2nd visit of gandhi to assam when?</b><div class='ans'>1926<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='175' onclick="this.classList.toggle('show')"><b>3rd visit of gandhi to assam when?</b><div class='ans'>1934<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='176' onclick="this.classList.toggle('show')"><b>4th/last visit of gandhi to assam when?</b><div class='ans'>1946<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='177' onclick="this.classList.toggle('show')"><b>after which session assam association joined non cop movement</b><div class='ans'>17th session held at tezpur in dec 1920<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='178' onclick="this.classList.toggle('show')"><b>first national school of assam? When? Where?</b><div class='ans'>tilak memorial school in guwahati in february 1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='179' onclick="this.classList.toggle('show')"><b>who is mongri orang</b><div class='ans'>aka malati mam one of the leading members of the anti opium campaign in tea gurdens. In 1921 she was killed by government supporters at lalmati in darrang for supporting congress volunters in prohibition campaign, she was the first woman martyr in history of assam who was killed during the non cop movement <br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='180' onclick="this.classList.toggle('show')"><b>first woman martyr of assam? When?</b><div class='ans'>malati mam @mongri orang killed during non comperation movement in 1921<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='181' onclick="this.classList.toggle('show')"><b>mongri orang killed where?</b><div class='ans'>lalmati in darrang<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='182' onclick="this.classList.toggle('show')"><b>who is known as volunteerani bai</b><div class='ans'>bhanumati talukdar<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='183' onclick="this.classList.toggle('show')"><b>who is the sarojini of assam? Title given by</b><div class='ans'>bhanumati talukdar @volunterni bai | by gandhi<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='184' onclick="this.classList.toggle('show')"><b>wife of omeo kumar das</b><div class='ans'>pushpalata das<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='185' onclick="this.classList.toggle('show')"><b>pushpalata das and omeo kumar das formed</b><div class='ans'>mrityu bahini & shanti bahini<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='186' onclick="this.classList.toggle('show')"><b>who is known as lokopriya? Title given by?</b><div class='ans'>gopinath bordoloi | title given by jayram das daulatram<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='187' onclick="this.classList.toggle('show')"><b>mahatma title given to gandhi by</b><div class='ans'>r. tagore<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='188' onclick="this.classList.toggle('show')"><b>title 'gurudev' who? Given by</b><div class='ans'>tagore=gurudev | title given by gandhi<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='189' onclick="this.classList.toggle('show')"><b>who translated the autobiography of m. gandhi to assamese</b><div class='ans'>omeo kumar das translated "the story of my experiment with truth" into assamese<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='190' onclick="this.classList.toggle('show')"><b>chandraprabha saikiani birth and death?</b><div class='ans'>16 march 1901 - 16 march 1972<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='191' onclick="this.classList.toggle('show')"><b>who is considered to be the pioneer of the feminist movement in assam</b><div class='ans'>chandraprabha saikia<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='192' onclick="this.classList.toggle('show')"><b>all assam pradeshik mahila samiti formed by? When? Why?</b><div class='ans'>1926 by chandraprabha saikia | for the welfare of the women of assam<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='193' onclick="this.classList.toggle('show')"><b>when did chandraprabha saikia received the 4th highest civilian award</b><div class='ans'>padmashri for the year 1972<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='194' onclick="this.classList.toggle('show')"><b>when did central government issued a commemorative stamp on chandraprabha saikia</b><div class='ans'>2002<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='195' onclick="this.classList.toggle('show')"><b>chandraprabha saikiani took part in which indian movements</b><div class='ans'>non cop movement (1920-21) | civil disobidience movement (1932)<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='196' onclick="this.classList.toggle('show')"><b>objective of swaraj party</b><div class='ans'>self government<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='197' onclick="this.classList.toggle('show')"><b>PAN full form</b><div class='ans'>presence across the nation<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='198' onclick="this.classList.toggle('show')"><b>in 1 april 1937 during sir sadulla ministy who was the governer and viceroy</b><div class='ans'>governer: robert neil reid | viceroy: linlithgow<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='199' onclick="this.classList.toggle('show')"><b>sylhet referendum held on</b><div class='ans'>17354<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='200' onclick="this.classList.toggle('show')"><b>who was the commisioner of sylhet referendum</b><div class='ans'>HC stock<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='201' onclick="this.classList.toggle('show')"><b>who was the governer of assam during quit india movement</b><div class='ans'>andrew clow<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='202' onclick="this.classList.toggle('show')"><b>derailment of train at sarupathar by</b><div class='ans'>during quit india movement by kushal knowar<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='203' onclick="this.classList.toggle('show')"><b>quit india movement in assam mostly perticipated in which districts</b><div class='ans'>nagaon and darrang<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='204' onclick="this.classList.toggle('show')"><b>where is gohpur</b><div class='ans'>biswanath<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='205' onclick="this.classList.toggle('show')"><b>kanaklata baruah was __ years of age when martyred </b><div class='ans'>14<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='206' onclick="this.classList.toggle('show')"><b>first and second CM of assam</b><div class='ans'>1st: gopinath bordoloi | 2nd: bishnuram medhi<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='207' onclick="this.classList.toggle('show')"><b>guwahati high court established when</b><div class='ans'>1948<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='208' onclick="this.classList.toggle('show')"><b>guwahati university established when</b><div class='ans'>1948<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='209' onclick="this.classList.toggle('show')"><b>NF railway established when</b><div class='ans'>1958<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='210' onclick="this.classList.toggle('show')"><b>assamese official language bill during which cm and when? When assamese became official lang.</b><div class='ans'>bimala prashad chaliha in 1960 (bill) | 1960: became official lang.<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='211' onclick="this.classList.toggle('show')"><b>first state to separate from assam? When?</b><div class='ans'>nagaland in 1 dec, 1963<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+<div class='card' data-id='212' onclick="this.classList.toggle('show')"><b>rani gaidinilu related to which movement</b><div class='ans'>quit india movement 1942<br><small>Topic: </small><br><button onclick="saveQuestion(event, this)">Save</button> <button onclick="bookmarkQuestion(event, this)">Bookmark</button></div></div>
+
+
+
+
+
+
+
+
+
+<!-- PASTE EXCEL CONTENT above -->
+
+<script>
+window.onload = function () {
+
+function updateQuestionCount() {
+  let count = document.querySelectorAll("#allQuestions .card").length;
+  document.getElementById("qCount").innerText =
+    "Total Questions: " + count;
+}
+
+
+  /* ================== STORAGE KEYS ================== */
+  const KEY_SET1 = "order_set1";
+  const KEY_SET2 = "order_set2";
+  const KEY_ACTIVE_SET = "activeSet"; // original | set1 | set2
+  
+const PAGE = location.pathname;
+const KEY_SAVED = "savedQ_" + PAGE;
+
+
+  const KEY_BOOKMARK = "bookmarkQ";
+
+  /* ================== LOAD STORED DATA ================== */
+  let saved = JSON.parse(localStorage.getItem(KEY_SAVED)) || [];
+  let bookmarkedId = localStorage.getItem(KEY_BOOKMARK);
+  let activeSet = localStorage.getItem(KEY_ACTIVE_SET) || "original";
+
+ let container = document.getElementById("allQuestions");
+ let cards = Array.from(document.querySelectorAll(".card"));
+
+// 🔥 MOVE ALL EXCEL-GENERATED CARDS INTO THE CONTAINER ONCE
+cards.forEach(card => container.appendChild(card));
+
+
+  /* ================== ORIGINAL ORDER ================== */
+  const originalOrder = cards.map(c => c.dataset.id);
+
+  /* ================== RANDOM ORDER GENERATOR ================== */
+  function generateRandomOrder(base) {
+    let arr = [...base];
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  /* ================== INITIALISE FIXED RANDOM SETS ================== */
+  if (!localStorage.getItem(KEY_SET1) || !localStorage.getItem(KEY_SET2)) {
+
+  let set1 = generateRandomOrder(originalOrder);
+  let set2 = generateRandomOrder(originalOrder);
+
+  // force difference
+  while (JSON.stringify(set1) === JSON.stringify(set2)) {
+    set2 = generateRandomOrder(originalOrder);
+  }
+
+  localStorage.setItem(KEY_SET1, JSON.stringify(set1));
+  localStorage.setItem(KEY_SET2, JSON.stringify(set2));
+}
+
+
+
+  /* ================== APPLY ORDER ================== */
+function applyOrder(order) {
+  order.forEach(id => {
+    let el = cards.find(c => c.dataset.id === id);
+    if (el) container.appendChild(el); // just move, don't delete
+  });
+}
+
+
+
+  /* ================== RESTORE SAVED STATE ================== */
+  function restoreSavedState() {
+    saved.forEach(id => {
+      let card = document.querySelector(`.card[data-id='${id}']`);
+      if (card) markDone(card);
+    });
+  }
+
+  /* ================== APPLY LAST ACTIVE SET ================== */
+  if (activeSet === "set1") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  } else if (activeSet === "set2") {
+    applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  } else {
+    applyOrder(originalOrder);
+  }
+
+  /* ================== SAVE QUESTION ================== */
+  window.saveQuestion = function (e, btn) {
+    e.stopPropagation();
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    if (!saved.includes(id)) {
+      saved.push(id);
+      localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+      markDone(card);
+      renderSaved();
+    updateQuestionCount();
+
+    }
+  };
+
+  /* ================== BOOKMARK QUESTION ================== */
+  window.bookmarkQuestion = function (e, btn) {
+    e.stopPropagation();
+
+    document.querySelectorAll(".card.bookmarked")
+      .forEach(c => c.classList.remove("bookmarked"));
+
+    let card = btn.closest(".card");
+    let id = card.dataset.id;
+
+    localStorage.setItem(KEY_BOOKMARK, id);
+    card.classList.add("bookmarked");
+  };
+
+  /* ================== GO TO BOOKMARK ================== */
+  window.goToBookmark = function () {
+    let id = localStorage.getItem(KEY_BOOKMARK);
+    if (!id) return alert("No bookmark set");
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("bookmarked");
+    }
+  };
+
+  /* ================== SET SWITCHERS ================== */
+window.loadOriginal = function () {
+  applyOrder(originalOrder);
+  localStorage.setItem(KEY_ACTIVE_SET, "original");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+window.loadSet1 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET1)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set1");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+ window.loadSet2 = function () {
+  applyOrder(JSON.parse(localStorage.getItem(KEY_SET2)));
+  localStorage.setItem(KEY_ACTIVE_SET, "set2");
+  restoreSavedState();
+  renderSaved();
+  updateQuestionCount();   // ← add only this
+};
+
+
+  /* ================== HELPERS ================== */
+  function markDone(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Done";
+    btn.disabled = true;
+    btn.classList.add("done");
+  }
+
+  function resetButton(card) {
+    let btn = card.querySelector("button");
+    btn.textContent = "Save";
+    btn.disabled = false;
+    btn.classList.remove("done");
+  }
+
+  function renderSaved() {
+    let box = document.getElementById("savedSection");
+    box.innerHTML = "";
+
+    saved.forEach(id => {
+      let original = document.querySelector(`.card[data-id='${id}']`);
+      if (!original) return;
+
+      let clone = original.cloneNode(true);
+      clone.querySelectorAll("button").forEach(b => b.remove());
+
+      let rm = document.createElement("button");
+      rm.textContent = "Remove";
+      rm.onclick = function (e) {
+        e.stopPropagation();
+        removeSaved(id);
+      };
+
+      clone.appendChild(rm);
+      box.appendChild(clone);
+    });
+  }
+
+  function removeSaved(id) {
+    saved = saved.filter(x => x !== id);
+    localStorage.setItem(KEY_SAVED, JSON.stringify(saved));
+
+    let card = document.querySelector(`.card[data-id='${id}']`);
+    if (card) resetButton(card);
+
+    renderSaved();
+  }
+
+  /* ================== RESTORE STATES ================== */
+  restoreSavedState();
+
+  if (bookmarkedId) {
+    let card = document.querySelector(`.card[data-id='${bookmarkedId}']`);
+    if (card) card.classList.add("bookmarked");
+  }
+
+  renderSaved();
+
+};
+
+window.toggleMenu = function(){
+  let m = document.getElementById("menu");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
+};
+
+
+
+window.goTop = function(){
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+};
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
