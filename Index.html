@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MagneticMale Card Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 16px 72px;
+    gap: 24px;
+    color: #111;
+  }
+
+  .header { text-align: center; }
+  .header-brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 5px; color: #111;
+    text-transform: uppercase;
+  }
+  .header-sub { font-size: 10px; color: #bbb; letter-spacing: 1.5px; margin-top: 4px; }
+
+  /* ── API KEY SETUP ── */
+  .api-setup {
+    width: 100%; max-width: 440px;
+    background: #fffdf8;
+    border: 1.5px solid #e8ddd0;
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .api-setup-title {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; color: #c8a47e;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .api-key-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+  }
+
+  .api-key-row input {
+    background: #fafafa;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 7px;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .api-key-row input:focus { border-color: #c8a47e; }
+  .api-key-row input::placeholder { color: #ccc; }
+
+  .save-key-btn {
+    background: #c8a47e; color: #fff;
+    border: none; border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 700;
+    padding: 10px 14px; cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .save-key-btn:hover { background: #b8906a; }
+
+  .api-hint {
+    font-size: 11px; color: #bbb; line-height: 1.6;
+  }
+  .api-hint a {
+    color: #c8a47e; text-decoration: none; font-weight: 600;
+  }
+  .api-hint a:hover { text-decoration: underline; }
+
+  .key-status { font-size: 11px; font-weight: 600; min-height: 14px; }
+
+  /* ── AI GENERATE SECTION ── */
+  .ai-section {
+    width: 100%; max-width: 440px;
+    background: #f9f6f2;
+    border: 1.5px solid #e8ddd0;
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-section-title {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; color: #111;
+    text-transform: uppercase;
+  }
+
+  .ai-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ai-controls select, .ai-controls input {
+    background: #fff;
+    border: 1.5px solid #e8e2d8;
+    border-radius: 7px;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    padding: 9px 11px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+  .ai-controls select:focus, .ai-controls input:focus { border-color: #c8a47e; }
+
+  .ai-topic-input {
+    background: #fff;
+    border: 1.5px solid #e8e2d8;
+    border-radius: 7px;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    padding: 9px 11px;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+  .ai-topic-input:focus { border-color: #c8a47e; }
+  .ai-topic-input::placeholder { color: #ccc; }
+
+  .ai-btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .gen-one-btn, .gen-month-btn {
+    border: none; border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 700;
+    padding: 13px 10px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .gen-one-btn { background: #111; color: #fff; }
+  .gen-one-btn:hover { background: #333; }
+  .gen-month-btn { background: #c8a47e; color: #fff; }
+  .gen-month-btn:hover { background: #b8906a; }
+  .gen-one-btn:disabled, .gen-month-btn:disabled {
+    background: #ddd; color: #aaa; cursor: not-allowed;
+  }
+
+  .ai-status {
+    font-size: 11px; color: #aaa;
+    text-align: center; min-height: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── MONTH QUEUE ── */
+  .queue-section {
+    width: 100%; max-width: 440px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .queue-section.show { display: flex; }
+
+  .queue-title {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; color: #111;
+    text-transform: uppercase;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .queue-count {
+    background: #c8a47e; color: #fff;
+    border-radius: 20px; padding: 2px 8px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .queue-list {
+    display: flex; flex-direction: column; gap: 6px;
+    max-height: 280px; overflow-y: auto;
+  }
+
+  .queue-item {
+    background: #fafafa;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 7px;
+    padding: 10px 12px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .queue-item:hover { border-color: #c8a47e; }
+  .queue-item.active { border-color: #c8a47e; background: #fffdf8; }
+
+  .queue-item-title {
+    font-size: 12px; font-weight: 600; color: #111;
+    flex: 1; line-height: 1.3;
+  }
+
+  .queue-item-pts {
+    font-size: 10px; color: #bbb; flex-shrink: 0;
+  }
+
+  .queue-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .dl-all-btn, .dl-current-btn {
+    border: none; border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 700;
+    padding: 12px; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .dl-current-btn { background: #111; color: #fff; }
+  .dl-current-btn:hover { background: #333; }
+  .dl-all-btn { background: #c8a47e; color: #fff; }
+  .dl-all-btn:hover { background: #b8906a; }
+  .dl-all-btn:disabled { background: #ddd; color: #aaa; cursor: not-allowed; }
+
+  /* ── MANUAL EDITOR ── */
+  .manual-section {
+    width: 100%; max-width: 440px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .section-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 2px; color: #bbb;
+    text-transform: uppercase;
+  }
+
+  textarea.paste-input {
+    width: 100%; min-height: 110px;
+    background: #fafafa;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 8px;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; line-height: 1.7;
+    padding: 13px 14px;
+    outline: none; resize: vertical;
+    transition: border-color 0.15s;
+  }
+  textarea.paste-input:focus { border-color: #c8a47e; }
+  textarea.paste-input::placeholder { color: #ccc; }
+
+  .hint { font-size: 11px; color: #ccc; line-height: 1.6; }
+  .hint code {
+    background: #f5f5f5; border: 1px solid #e8e8e8;
+    border-radius: 3px; padding: 1px 5px;
+    font-size: 10px; color: #aaa;
+  }
+
+  .parse-btn {
+    background: #111; color: #fff;
+    border: none; border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 700;
+    padding: 14px; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .parse-btn:hover { background: #333; }
+
+  hr.sep { border: none; border-top: 1px solid #f0f0f0; width: 100%; max-width: 440px; }
+
+  .download-btn {
+    width: 100%; max-width: 440px;
+    background: #c8a47e; color: #fff;
+    border: none; border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 700;
+    padding: 14px; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .download-btn:hover { background: #b8906a; }
+  .download-btn:disabled { background: #ddd; color: #aaa; cursor: not-allowed; }
+
+  .dl-status { font-size: 11px; color: #aaa; text-align: center; min-height: 14px; }
+
+  .preview-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    color: #ccc; text-transform: uppercase; text-align: center;
+  }
+
+  .card-wrap { display: flex; justify-content: center; width: 100%; }
+
+  /* ═══════════════════════════════════════
+     THE CARD
+  ═══════════════════════════════════════ */
+  .card {
+    width: 360px; height: 640px;
+    background: #f5f0e8;
+    border-radius: 4px;
+    padding: 40px 36px 32px;
+    position: relative;
+    display: flex; flex-direction: column;
+    overflow: hidden; flex-shrink: 0;
+  }
+
+  .card::before, .card::after {
+    content: '';
+    position: absolute;
+    width: 22px; height: 22px;
+    border-color: #c8b89a; border-style: solid;
+  }
+  .card::before { top: 14px; left: 14px; border-width: 1.5px 0 0 1.5px; }
+  .card::after  { bottom: 14px; right: 14px; border-width: 0 1.5px 1.5px 0; }
+
+  .card-header { text-align: center; margin-bottom: 18px; flex-shrink: 0; }
+
+  .card-brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px; font-weight: 600;
+    letter-spacing: 5px; color: #c8a47e;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 30px;
+    line-height: 1.15; color: #1a1612;
+    letter-spacing: -0.3px; text-transform: uppercase;
+  }
+
+  .card-title em {
+    font-style: italic; font-weight: 700;
+    color: #c8a47e; text-transform: none;
+  }
+
+  .card-divider {
+    display: flex; align-items: center;
+    gap: 8px; width: fit-content;
+    margin: 12px auto 0;
+  }
+  .cdl { width: 30px; height: 1px; background: #c8b89a; opacity: 0.6; }
+  .cdd { width: 5px; height: 5px; background: #c8a47e; transform: rotate(45deg); flex-shrink: 0; }
+
+  .card-list {
+    list-style: none; flex: 1;
+    display: flex; flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  .card-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 8px; padding: 10px 0;
+    border-bottom: 1px solid #e0d8cc;
+    align-items: start;
+  }
+  .card-item:last-child { border-bottom: none; }
+
+  .card-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 600;
+    color: #c8a47e; padding-top: 2px;
+    letter-spacing: 0.3px;
+  }
+
+  .card-desc {
+    font-family: 'Lora', serif;
+    font-size: 16px; font-weight: 400;
+    color: #1a1612; line-height: 1.6;
+    letter-spacing: 0.1px;
+  }
+
+  .card-footer {
+    flex-shrink: 0; margin-top: 14px;
+    text-align: center;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+  }
+  .footer-rule { width: 32px; height: 1px; background: #c8b89a; opacity: 0.5; }
+  .footer-brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 5px; color: #c8a47e;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">MagneticMale</div>
+  <div class="header-sub">AI Card Generator</div>
+</div>
+
+<!-- API KEY SETUP -->
+<div class="api-setup">
+  <div class="api-setup-title">🔑 Gemini API Key (Free)</div>
+  <div class="api-hint">
+    Get your free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → Sign in → Create API Key. Paste it below.
+  </div>
+  <div class="api-key-row">
+    <input type="password" id="apiKeyInput" placeholder="Paste your Gemini API key here..." />
+    <button class="save-key-btn" onclick="saveKey()">Save</button>
+  </div>
+  <div class="key-status" id="keyStatus"></div>
+</div>
+
+<!-- AI GENERATE -->
+<div class="ai-section">
+  <div class="ai-section-title">✦ AI Content Generator</div>
+
+  <input class="ai-topic-input" id="topicInput"
+    placeholder="Topic (optional) e.g. texting, confidence, red flags..." />
+
+  <div class="ai-controls">
+    <select id="pointsCount">
+      <option value="5">5 points</option>
+      <option value="6">6 points</option>
+      <option value="7" selected>7 points</option>
+      <option value="8">8 points</option>
+      <option value="10">10 points</option>
+    </select>
+    <select id="cardCount">
+      <option value="1">1 card</option>
+      <option value="7">7 cards (1 week)</option>
+      <option value="15">15 cards</option>
+      <option value="30" selected>30 cards (1 month)</option>
+    </select>
+  </div>
+
+  <div class="ai-btn-row">
+    <button class="gen-one-btn" id="genOneBtn" onclick="generateCards(1)">⚡ Generate 1 Card</button>
+    <button class="gen-month-btn" id="genMonthBtn" onclick="generateCards()">🗓 Generate Month</button>
+  </div>
+  <div class="ai-status" id="aiStatus"></div>
+</div>
+
+<!-- QUEUE -->
+<div class="queue-section" id="queueSection">
+  <div class="queue-title">
+    Generated Cards
+    <span class="queue-count" id="queueCount">0</span>
+  </div>
+  <div class="queue-list" id="queueList"></div>
+  <div class="queue-actions">
+    <button class="dl-current-btn" onclick="downloadCard()">⬇ Download Current</button>
+    <button class="dl-all-btn" id="dlAllBtn" onclick="downloadAll()">⬇ Download All</button>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- MANUAL PASTE -->
+<div class="manual-section">
+  <div class="section-label">Or Paste Manually</div>
+  <textarea class="paste-input" id="pasteInput" placeholder="First line = title&#10;Every line after = a point"></textarea>
+  <div class="hint">First line → Title · Each line after → point · <code>1.</code> <code>•</code> <code>-</code> auto-cleaned</div>
+  <button class="parse-btn" onclick="parseContent()">⚡ Generate Card</button>
+</div>
+
+<hr class="sep">
+
+<button class="download-btn" id="downloadBtn" onclick="downloadCard()">⬇ Download PNG</button>
+<div class="dl-status" id="dlStatus"></div>
+
+<div class="preview-label">Preview</div>
+
+<div class="card-wrap">
+  <div class="card" id="cardPreview">
+    <div class="card-header">
+      <div class="card-brand">MAGNETICMALE</div>
+      <div class="card-title" id="previewTitle">Your Title <em>Here</em></div>
+      <div class="card-divider">
+        <div class="cdl"></div><div class="cdd"></div><div class="cdl"></div>
+      </div>
+    </div>
+    <ul class="card-list" id="previewList">
+      <li class="card-item">
+        <span class="card-num">—</span>
+        <span class="card-desc" style="color:#c8b89a;font-style:italic;">Generate or paste content above</span>
+      </li>
+    </ul>
+    <div class="card-footer">
+      <div class="footer-rule"></div>
+      <div class="footer-brand">MagneticMale</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cardQueue = [];
+  let currentQueueIndex = 0;
+
+  // ── KEY MANAGEMENT ──
+  function saveKey() {
+    const key = document.getElementById('apiKeyInput').value.trim();
+    if (!key) { setKeyStatus('Paste your API key first.', '#e07070'); return; }
+    localStorage.setItem('gemini_key', key);
+    setKeyStatus('✓ Key saved!', '#6aaa6a');
+    setTimeout(() => setKeyStatus('', ''), 3000);
+  }
+
+  function getKey() {
+    return localStorage.getItem('gemini_key') || document.getElementById('apiKeyInput').value.trim();
+  }
+
+  function setKeyStatus(msg, color) {
+    const el = document.getElementById('keyStatus');
+    el.style.color = color; el.textContent = msg;
+  }
+
+  // Load saved key on start
+  window.addEventListener('load', () => {
+    const saved = localStorage.getItem('gemini_key');
+    if (saved) {
+      document.getElementById('apiKeyInput').value = saved;
+      setKeyStatus('✓ Key loaded', '#6aaa6a');
+    }
+  });
+
+  // ── AI GENERATION ──
+  async function generateCards(forceCount) {
+    const key = getKey();
+    if (!key) { setAiStatus('⚠ Please save your Gemini API key first.', '#e07070'); return; }
+
+    const topic = document.getElementById('topicInput').value.trim();
+    const points = document.getElementById('pointsCount').value;
+    const count = forceCount || parseInt(document.getElementById('cardCount').value);
+
+    setAiStatus(`Generating ${count} card${count > 1 ? 's' : ''}... please wait`, '#c8a47e');
+    disableAiBtns(true);
+
+    const topicLine = topic ? `Topic focus: ${topic}` : 'Use varied topics: attraction, confidence, mindset, texting, masculinity, relationships, self-improvement';
+
+    const prompt = `You are a content writer for MagneticMale, a men's self-improvement Instagram page.
+Generate exactly ${count} unique Reel card scripts.
+${topicLine}
+Each card must have:
+- 1 punchy title (max 8 words, engaging, no hashtags)
+- Exactly ${points} short sharp points (max 10 words each, no numbering, no bullets)
+
+Return ONLY valid JSON, no markdown, no explanation:
+[
+  {
+    "title": "Card Title Here",
+    "points": ["Point one", "Point two", "Point three"]
+  }
+]`;
+
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
+          })
+        }
+      );
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error?.message || 'API error');
+      }
+
+      const data = await res.json();
+      let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+      // Strip markdown fences if any
+      raw = raw.replace(/```json|```/g, '').trim();
+
+      const cards = JSON.parse(raw);
+      if (!Array.isArray(cards) || !cards.length) throw new Error('No cards returned');
+
+      cardQueue = cards;
+      currentQueueIndex = 0;
+      renderQueueItem(0);
+      buildQueueUI();
+      setAiStatus(`✓ ${cards.length} card${cards.length > 1 ? 's' : ''} generated!`, '#6aaa6a');
+      setTimeout(() => setAiStatus('', ''), 4000);
+
+    } catch (e) {
+      setAiStatus(`Error: ${e.message}`, '#e07070');
+    }
+
+    disableAiBtns(false);
+  }
+
+  function disableAiBtns(state) {
+    document.getElementById('genOneBtn').disabled = state;
+    document.getElementById('genMonthBtn').disabled = state;
+  }
+
+  function setAiStatus(msg, color) {
+    const el = document.getElementById('aiStatus');
+    el.style.color = color; el.textContent = msg;
+  }
+
+  // ── QUEUE UI ──
+  function buildQueueUI() {
+    const section = document.getElementById('queueSection');
+    const list = document.getElementById('queueList');
+    const count = document.getElementById('queueCount');
+
+    section.className = 'queue-section show';
+    count.textContent = cardQueue.length;
+    list.innerHTML = '';
+
+    cardQueue.forEach((card, i) => {
+      const item = document.createElement('div');
+      item.className = 'queue-item' + (i === currentQueueIndex ? ' active' : '');
+      item.innerHTML = `
+        <div class="queue-item-title">${esc(card.title)}</div>
+        <div class="queue-item-pts">${card.points.length} pts</div>
+      `;
+      item.onclick = () => { currentQueueIndex = i; renderQueueItem(i); updateQueueActive(); };
+      list.appendChild(item);
+    });
+  }
+
+  function updateQueueActive() {
+    document.querySelectorAll('.queue-item').forEach((el, i) => {
+      el.className = 'queue-item' + (i === currentQueueIndex ? ' active' : '');
+    });
+  }
+
+  function renderQueueItem(index) {
+    const card = cardQueue[index];
+    if (!card) return;
+    renderCard(card.title, card.points);
+  }
+
+  // ── DOWNLOAD ALL ──
+  async function downloadAll() {
+    if (!cardQueue.length) return;
+    const btn = document.getElementById('dlAllBtn');
+    btn.disabled = true;
+
+    for (let i = 0; i < cardQueue.length; i++) {
+      currentQueueIndex = i;
+      renderQueueItem(i);
+      updateQueueActive();
+      setDlStatus(`Downloading ${i + 1} of ${cardQueue.length}...`, '#c8a47e');
+
+      // Small wait for render
+      await new Promise(r => setTimeout(r, 300));
+
+      await downloadCard(true, `magneticmale-card-${String(i+1).padStart(2,'0')}`);
+
+      // Pause between downloads so browser doesn't block
+      await new Promise(r => setTimeout(r, 600));
+    }
+
+    setDlStatus(`✓ All ${cardQueue.length} cards downloaded!`, '#6aaa6a');
+    btn.disabled = false;
+    setTimeout(() => setDlStatus('', ''), 5000);
+  }
+
+  // ── MANUAL PASTE ──
+  function cleanLine(l) {
+    return l.replace(/^[\s]*(\d+[\.\)]\s*|[•\-\*]\s*)/, '').trim();
+  }
+
+  function parseContent() {
+    const lines = document.getElementById('pasteInput').value
+      .split('\n').map(l => l.trim()).filter(l => l.length);
+    if (!lines.length) { setDlStatus('Paste something first.', '#e07070'); return; }
+    const rawTitle = lines[0];
+    const points   = lines.slice(1).map(cleanLine).filter(l => l.length);
+    renderCard(rawTitle, points);
+    setDlStatus('✓ Card ready!', '#6aaa6a');
+    setTimeout(() => setDlStatus('', ''), 3000);
+  }
+
+  // ── RENDER CARD ──
+  function renderCard(rawTitle, points) {
+    const words = rawTitle.trim().split(' ');
+    const last  = words.pop();
+    const rest  = words.map(w => w.toUpperCase()).join(' ');
+    const lastFormatted = last.charAt(0).toUpperCase() + last.slice(1).toLowerCase();
+    document.getElementById('previewTitle').innerHTML =
+      (rest ? esc(rest) + ' ' : '') + `<em>${esc(lastFormatted)}</em>`;
+
+    const list = document.getElementById('previewList');
+    list.innerHTML = '';
+
+    if (!points.length) {
+      list.innerHTML = `<li class="card-item"><span class="card-num">—</span><span class="card-desc" style="color:#c8b89a;font-style:italic;">No points found</span></li>`;
+      return;
+    }
+
+    points.forEach((pt, i) => {
+      const li = document.createElement('li');
+      li.className = 'card-item';
+      li.innerHTML = `<span class="card-num">${String(i+1).padStart(2,'0')}</span><span class="card-desc">${esc(pt)}</span>`;
+      list.appendChild(li);
+    });
+
+    scaleFit();
+  }
+
+  function scaleFit() {
+    const list  = document.getElementById('previewList');
+    const descs = list.querySelectorAll('.card-desc');
+    if (!descs.length) return;
+    descs.forEach(el => el.style.fontSize = '');
+    let size = 16;
+    while (list.scrollHeight > 430 && size > 10) {
+      size -= 0.5;
+      descs.forEach(el => el.style.fontSize = size + 'px');
+    }
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── DOWNLOAD ──
+  async function downloadCard(silent = false, filename = 'magneticmale-card') {
+    if (!silent) {
+      document.getElementById('downloadBtn').disabled = true;
+      document.getElementById('downloadBtn').textContent = 'Generating...';
+    }
+    try {
+      const canvas = await html2canvas(document.getElementById('cardPreview'), {
+        scale: 3, useCORS: true, backgroundColor: '#f5f0e8',
+        logging: false, width: 360, height: 640
+      });
+      const a = document.createElement('a');
+      a.download = filename + '.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+      if (!silent) setDlStatus('✓ Downloaded — 1080×1920 ready for Reels', '#6aaa6a');
+    } catch(e) {
+      if (!silent) setDlStatus('Download failed. Screenshot instead.', '#e07070');
+    }
+    if (!silent) {
+      document.getElementById('downloadBtn').disabled = false;
+      document.getElementById('downloadBtn').textContent = '⬇ Download PNG';
+      setTimeout(() => setDlStatus('', ''), 4000);
+    }
+  }
+
+  function setDlStatus(msg, color) {
+    const el = document.getElementById('dlStatus');
+    el.style.color = color; el.textContent = msg;
+  }
+</script>
+</body>
+</html>
